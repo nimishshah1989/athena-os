@@ -1,0 +1,1 @@
+/Users/nimishshah/.claude/skills/gstack/spec/SKILL.md

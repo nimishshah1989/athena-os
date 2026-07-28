@@ -1,0 +1,5 @@
+- [Founder zero-friction law](founder-zero-friction-law.md) — auto-attribution over manual filing, everywhere
+- [Parallelize with agents](parallelize-with-agents.md) — never serialize the day around one pipeline; agents on independent streams, orchestrator verifies
+- [Beyond agent discipline](beyond-agent-discipline.md) — agents draft-not-send, deterministic-math, provenance, org-scoped; the orchestration pattern
+- [ELI5 glance→drill design law](eli5-glance-drill.md) — glance layer default, depth one click away; spec §4.9 L1–L9 is canonical
+- [Founder design-feedback laws](founder-design-feedback-laws.md) — explanation-or-delete, click-through-to-source, arranged density, light surfaces, one capture rail

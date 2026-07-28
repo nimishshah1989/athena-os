@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(./setup)",
+      "Bash(awk '{print}' /Users/nimishshah/Documents/GitHub/atlas-os/prds/M1_DATA_CORE_INVENTORY.md)",
+      "Bash(dd if=/Users/nimishshah/Documents/GitHub/atlas-os/M1_DATA_CORE_INVENTORY.md)",
+      "Bash(dd if=/Users/nimishshah/Documents/GitHub/atlas-os/decisions.jsonl)",
+      "Bash(dd if=/Users/nimishshah/Documents/GitHub/atlas-os/src/atlas_os/db.py bs=4096 count=1)",
+      "Bash(grep -v \"^$\")",
+      "Bash(ls /Users/nimishshah/Documents/GitHub/ 2>&1)",
+      "Bash(perl -ne 'print if $. <= 150' /Users/nimishshah/Documents/GitHub/atlas-os/prds/M1_DATA_CORE_INVENTORY.md)",
+      "Bash(pytest --cov=atlas/signals/processor --cov=atlas/api/tv_signals --cov-report=json -q -m \"not integration\" tests/unit/signals/test_processor.py tests/api/test_tv_signals.py)",
+      "Bash(python3 -c ' *)",
+      "Bash(rm -f /private/tmp/claude-501/-Users-nimishshah-Documents-GitHub-atlas-os/85b19ae4-2cb5-44f0-b305-6e4e846eec15/tasks/*.output && echo \"cleared\")",
+      "Bash(tar czf:*)",
+      "Bash(xattr -l /Users/nimishshah/Documents/GitHub/atlas-os/prds/M1_DATA_CORE_INVENTORY.md)",
+      "Read(//Users/nimishshah/Documents/GitHub/**)",
+      "Skill(autoplan)",
+      "Skill(autoplan:*)",
+      "Skill(gstack-upgrade)",
+      "Skill(gstack-upgrade:*)",
+      "mcp__plugin_supabase_supabase__authenticate",
+      "mcp__plugin_supabase_supabase__complete_authentication",
+      "mcp__plugin_supabase_supabase__list_organizations",
+      "mcp__plugin_supabase_supabase__get_organization",
+      "mcp__plugin_supabase_supabase__list_projects",
+      "mcp__plugin_supabase_supabase__get_project",
+      "mcp__plugin_supabase_supabase__get_project_url",
+      "mcp__plugin_supabase_supabase__get_anon_key",
+      "mcp__plugin_supabase_supabase__get_publishable_keys",
+      "mcp__plugin_supabase_supabase__list_tables",
+      "mcp__plugin_supabase_supabase__list_extensions",
+      "mcp__plugin_supabase_supabase__list_migrations",
+      "mcp__plugin_supabase_supabase__list_branches",
+      "mcp__plugin_supabase_supabase__list_edge_functions",
+      "mcp__plugin_supabase_supabase__get_edge_function",
+      "mcp__plugin_supabase_supabase__get_logs",
+      "mcp__plugin_supabase_supabase__get_advisors",
+      "mcp__plugin_supabase_supabase__get_cost",
+      "mcp__plugin_supabase_supabase__confirm_cost",
+      "mcp__plugin_supabase_supabase__generate_typescript_types",
+      "mcp__plugin_supabase_supabase__search_docs",
+      "Bash(gh pr *)",
+      "Bash(git -C ~/.claude/wiki log --oneline)",
+      "Bash(rm -f ~/.claude/wiki/drafts/2026-07-28-*.md)",
+      "Bash(git -C ~/.claude/wiki status --short)"
+    ],
+    "deny": [
+      "mcp__plugin_supabase_supabase__apply_migration",
+      "mcp__plugin_supabase_supabase__deploy_edge_function",
+      "mcp__plugin_supabase_supabase__create_project",
+      "mcp__plugin_supabase_supabase__pause_project",
+      "mcp__plugin_supabase_supabase__restore_project",
+      "mcp__plugin_supabase_supabase__create_branch",
+      "mcp__plugin_supabase_supabase__delete_branch",
+      "mcp__plugin_supabase_supabase__merge_branch",
+      "mcp__plugin_supabase_supabase__reset_branch",
+      "mcp__plugin_supabase_supabase__rebase_branch"
+    ],
+    "defaultMode": "default",
+    "additionalDirectories": [
+      "/private/tmp/claude-501/-Users-nimishshah-Documents-GitHub-atlas-os/85b19ae4-2cb5-44f0-b305-6e4e846eec15/tasks"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/pre-edit-no-hardcoded-creds.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/pre-edit-no-bare-except.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/pre-edit-design-gate.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/pre-edit-no-float-money.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/pre-edit-no-pii-logging.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/pre-edit-decimal-encoder-fastapi.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/pre-edit-require-thinking.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__plugin_supabase_supabase__execute_sql",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 $HOME/.claude/hooks/pre-supabase-sql-guard.py"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/nimishshah/.claude/hooks/session-harvest.sh"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/nimishshah/.claude/hooks/skill-activator.sh"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/session-start-scan-encoder.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/session-start-skill-loader.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/session-start-repo-map.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/post-edit-decision-log.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/post-edit-pyright.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/post-edit-eslint.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/post-edit-pragma-test-required.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/post-skill-thinking-marker.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__plugin_supabase_supabase__execute_sql",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash $HOME/.claude/hooks/post-supabase-sql-consume.sh"
+          }
+        ]
+      }
+    ],
+    "TaskCompleted": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/post-task-cost-snapshot.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true,
+    "andrej-karpathy-skills@karpathy-skills": true,
+    "superpowers@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "supabase@claude-plugins-official": true,
+    "serena@claude-plugins-official": true,
+    "playground@claude-plugins-official": true,
+    "hookify@claude-plugins-official": true,
+    "ponytail@ponytail": true
+  },
+  "extraKnownMarketplaces": {
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    },
+    "karpathy-skills": {
+      "source": {
+        "source": "github",
+        "repo": "forrestchang/andrej-karpathy-skills"
+      }
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
+    }
+  },
+  "forceLoginMethod": "claudeai",
+  "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "theme": "light",
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true
+}

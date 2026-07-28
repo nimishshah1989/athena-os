@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ralph --help)",
+      "Bash(ralph)",
+      "Bash(ralph-setup)",
+      "Bash(/Users/nimishshah/.npm-global/bin/claude:*)",
+      "Bash(gtimeout 5s:*)",
+      "Read(//private/tmp/**)",
+      "Bash(ralph-setup ralph-test-run:*)",
+      "Bash(ralph --no-continue)",
+      "Bash(python3 src/hello.py)",
+      "Bash(python3 src/goodbye.py)",
+      "Skill(investigate)",
+      "Bash(ssh:*)",
+      "Bash(mkdir -p ~/Downloads/ytip-backup)",
+      "Bash(rsync -avz --progress -e 'ssh -i ~/.ssh/fie-key.pem -o StrictHostKeyChecking=no' 'ec2-user@13.206.50.251:~/ytip-backend/' '~/Downloads/ytip-backup/ytip-backend/')",
+      "Bash(rsync -avz --progress -e 'ssh -i ~/.ssh/fie-key.pem -o StrictHostKeyChecking=no' 'ec2-user@13.206.50.251:~/ytip-git/' '~/Downloads/ytip-backup/ytip-git/')",
+      "Bash(echo \"Both rsync jobs launched in background \\(PIDs: $!\\)\")",
+      "Bash(wait)",
+      "Bash(rsync -avz --exclude venv/ --exclude __pycache__/ --exclude '*.pyc' -e 'ssh -i ~/.ssh/fie-key.pem -o StrictHostKeyChecking=no' ec2-user@13.206.50.251:/opt/jip-india/ /tmp/jip-india-transfer/)",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(scp:*)",
+      "Bash(curl:*)"
+    ]
+  }
+}

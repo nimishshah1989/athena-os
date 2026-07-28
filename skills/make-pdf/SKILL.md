@@ -1,0 +1,1 @@
+/Users/nimishshah/.claude/skills/gstack/make-pdf/SKILL.md

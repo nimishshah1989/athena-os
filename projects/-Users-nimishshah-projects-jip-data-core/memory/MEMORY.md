@@ -1,0 +1,14 @@
+- [Dashboard is the only interface](feedback_dashboard_only.md) — user dropped Telegram; https://data.jslwealth.in/ is the single pane of glass
+- [Prefer free OSS LLMs with fallback chain](feedback_free_oss_llms.md) — Groq → OpenRouter → Gemini cascade; never single-provider
+- [No autonomous decisions](feedback_no_autonomous_decisions.md) — Always ask before choosing build modes or workflow paths
+- [Use FULL Forge system](feedback_use_full_forge_system.md) — Every forge tool must run: ralph, review, ship, guard, forge-compile. No shortcuts ever
+- [Dagster Orchestrator (cutover)](project_dagster_orchestrator.md) — Replaces cron 2026-04-18; 38 assets + 12 schedules at /dagster
+- [Loud-fail ops overhaul](project_loud_fail_ops.md) — de_cron_run + jip_trigger.sh + Agent 3 + Cron Runs panel; built 2026-04-13 (now safety net under Dagster)
+- [RAG layer](project_rag_layer.md) — pgvector 384d + fastembed bge-small + /observatory/search; inline embed during extraction
+- [Goldilocks Build](project_goldilocks_build.md) — 5-step cron chain: scrape → PDF → Whisper → Groq LLM → embed. 55/187 docs done, all tables live
+- [Pipeline Orchestration](project_pipeline_orchestration.md) — Trigger API + 3 managed agents + data catalog dashboard. Most bugs resolved in loud-fail overhaul
+- [Morningstar APIs](project_morningstar_apis.md) — 10 endpoints available, richer than spec assumed
+- [Pipeline Dashboard](project_pipeline_dashboard.md) — User wants live frontend for pipeline monitoring
+- [Forge Autonomous Build](project_forge_autonomous_build.md) — Ralph CTO orchestrator, dashboard, deploy, formula docs — all set for overnight builds
+- [JSL Wealth Infra](project_jsl_wealth_infra.md) — All JIP infra on JSL Wealth account 389517402998, never personal fie account
+- [ETF Universe Expansion](project_etf_universe_expansion.md) — DONE: 258 ETFs (220 active), NSE via yfinance .NS, daily automation wired

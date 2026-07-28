@@ -1,0 +1,5 @@
+- [user_role.md](user_role.md) — User profile: trader building automated CTS platform
+- [project_learning_pipeline.md](project_learning_pipeline.md) — Learning pipeline wiring status and architecture
+- [feedback_code_style.md](feedback_code_style.md) — Code style and workflow preferences
+- [project_qa_system.md](project_qa_system.md) — QA auto-loop system setup details
+- [production_infrastructure.md](production_infrastructure.md) — Production deployment state, containers, Nginx, bug fixes

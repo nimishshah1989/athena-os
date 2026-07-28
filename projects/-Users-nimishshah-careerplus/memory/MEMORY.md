@@ -1,0 +1,2 @@
+- [Q&A bank field standardization](qa-bank-field-standardization.md) — founder wants extension autofill fields (notice period, CTC, location, etc.) turned into structured inputs, batched for one pass.
+- [Apply-flow deferred polish](apply-flow-deferred-polish.md) — inline artifact-style CV/letter preview + editing, and more cover-letter templates; deferred but wanted before wider circulation.

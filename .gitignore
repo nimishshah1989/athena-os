@@ -1,0 +1,49 @@
+# Athena OS — version the configuration, never the runtime.
+
+# Secrets — defence in depth. Nothing matching these should ever be committed.
+*.pem
+*.key
+.env
+.env.*
+*credential*
+*secret*
+.credentials.json
+
+# Session runtime: transcripts, tool results, images, subagent logs.
+# Everything under projects/ is excluded EXCEPT the auto-memory, which is the
+# one thing there worth versioning. Order matters: re-include the directories
+# first so git descends into them, then their contents.
+projects/**
+!projects/*/
+!projects/*/memory/
+!projects/*/memory/**
+
+# Reproducible from marketplaces
+plugins/
+node_modules/
+
+# Caches and generated runtime state
+cache/
+paste-cache/
+downloads/
+file-history/
+shell-snapshots/
+telemetry/
+backups/
+tasks/
+statsig/
+ide/
+.ruflo/
+stats-cache.json
+history.jsonl
+*.log
+
+# Build artefacts
+__pycache__/
+*.pyc
+
+# Broken audit log — removed in P1, never worth versioning
+decisions.jsonl
+
+# OS noise
+.DS_Store

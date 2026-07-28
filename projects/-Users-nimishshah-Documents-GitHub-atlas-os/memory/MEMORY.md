@@ -1,0 +1,74 @@
+- [Regime + India Pulse fix chunk](project_regime_indiapulse_fix_chunk.md) — 2026-05-30 ACTIVE; Wave 1 (M1 MV v2 + M2 breadth) CODE DONE not deployed; next = EC2 stamp 121 + upgrade 122 + breadth backfill; then M3-M7 + frontend F1-F6
+- [Overnight audit + locked fix sequence](project_overnight_audit_fix_sequence.md) — 2026-05-30 audit (47 findings), 9-chunk plan, 3 approved decisions; next session = Chunk A+ data layer (migration 121 cron fix + 2 MV date bugs + writer chain)
+- [Multidim chart pattern](feedback_multidim_chart_pattern.md) — every v6 detail chart stacks price + S/R + RS-signal diamonds + volume + 20D-MA in one frame; reference impl is 03-markets-rs.html r3
+- [Two-up chart layout](feedback_two_up_chart_layout.md) — pair non-dense charts side-by-side (1fr 1fr) instead of long horizontals; default to 2-up unless chart is genuinely dense
+- [Authorized to merge PRs to main](feedback_can_merge_to_main.md) — squash-merge stacked v6 PRs in dependency order; no per-PR confirm needed
+- [Internal-tool priority — skip compliance noise](feedback_internal_tool_priority.md) — focus on the matrix generator; SEBI/WTP/named-secondary all deferred
+- [Autonomous execution during v6 build](feedback_autonomous_execution.md) — no small "which next" questions; check in only at major milestones; use subagent-driven-development for parallel issue work
+- [Atlas v6 build runbook](project_v6_build_runbook.md) — multi-month build process, 5 context layers, 4 pre-build gates, per-chunk loop, memory hygiene
+- [Invoke gstack skills BEFORE any action](feedback_gstack_skills_first.md) — non-negotiable; pick skill, invoke, follow, then act
+- [No calendar estimates in Atlas build plans](feedback_no_calendar_estimates.md) — sequence by dependency + exit criteria; estimates consistently 5-10x too high
+- [Lift aggressively from v1-v5; vectorized lean fast code](feedback_lift_aggressively_lean_fast.md) — default LIFT not REBUILD; numpy/pandas vectorized; perf targets locked
+- [Outside-voice fallback cascade](reference_outside_voice_fallback.md) — codex → gemini-cli (not installed) → claude subagent
+- [Read foundation docs before milestone work](feedback_session_bootstrap.md) — load order: 00-04 + INFRA_DECISIONS + active milestone doc
+- [Atlas project context](project_atlas.md) — what we're building, four pillars, current milestone state
+- [Atlas closing plan](project_closing_plan.md) — approved 6-phase sequence to finish v2 + retire old system before v5
+- [Supabase architecture](project_supabase_pivot.md) — single-DB pivot, atlas + JIP de_* in same Postgres
+- [Methodology lock is source of truth](feedback_methodology_wins.md) — when milestone docs disagree, methodology wins
+- [Foundation docs locations](reference_foundation_docs.md) — where 00-04 + milestones + PRDs live
+- [Repo layout reference](reference_repo_layout.md) — atlas/, migrations/, scripts/ map
+- [Backend-first build cadence](feedback_backend_first.md) — frontend brief deferred until M5 ships
+- [Focused checks over exhaustive](feedback_focused_scope.md) — user prefers tight pre-flight, not deep diagnostics
+- [Per-milestone skill cadence](project_skill_cadence.md) — plan-eng-review → TDD → review/sebi/security → ship per milestone
+- [User profile](user_role.md) — Nimish, architect on Atlas, fintech wealth-management product
+- [EC2 access](reference_ec2_access.md) — jsl-wealth-server SSH host for compute (Mac psycopg2 broken; EC2 is the working path)
+- [Atlas frontend host](reference_atlas_frontend_host.md) — atlas.jslwealth.in on 13.206.34.214 (same EC2 as compute, port 3001, PM2-managed); deploy = git pull + npm run build + pm2 restart; src/ symlinks to frontend/src/
+- [M2 milestone state](project_m2_state.md) — DB contents, validation results, sign-off checklist, known artifacts
+- [M3 build plan](project_m3_plan.md) — scope (index metrics + sector aggregation + market regime), gstack skill sequence, session bootstrap order
+- [Pre-commit hook fixes](feedback_precommit_hooks.md) — verify-chain + pragma-coverage hooks had bugs causing hangs; both fixed
+- [Use Opus 4.7 for code builds](feedback_opus47_for_builds.md) — spawn model:opus agent for all M3+ module implementation; planning/review stays in main session
+- [M4+M5 milestone state](project_m4_m5_state.md) — both milestones committed; EC2 backfill (migration 011 → M3 → M4 → M5) needed before frontend starts
+- [M7 Phase 3 state](project_m7_phase3_state.md) — custom portfolio builder DONE; all 6 validation checks pass; SAFE for frontend; EC2 backfill still needed for production
+- [M3 momentum bug fix](project_m3_fix_state.md) — ema_ratio bug fixed (da3fd16, on main); full EC2 backfill done 2026-05-09; ETF momentum states now healthy
+- [Multi-timeframe backtest — pending](project_backtest_timeframes.md) — 3Y/5Y/7Y code on local main (commit 9fb7a00), not pushed; run after pushing to GitHub + EC2 pull
+- [Stocks page complete backlog](project_stocks_page_backlog.md) — Phase A-F path to 100%; P0 is_investable bug blocks everything; exit signals, deep dive upgrade, relative returns, nightly automation outstanding
+- [2026-05 health audit state](project_health_audit_2026_05.md) — 10 P0 bugs fixed (drawdown formula, sector np.select, vol zero-guard, Decimal thresholds, SQL injection, VIX NaN, participation_rs, NAV gaps, sector percentile-rank fix c663127, lens_nav double-divide fix 35c1453); all P1s resolved (auth, fake 202, cross-context imports)
+- [SP01 Signal Validation Lab — first run](project_sp01_state.md) — v1 composite IC=0.009 (FAIL gate); halt before SP04 to redesign composite (multi-timeframe, liquid-only, historical-base-rate encoding)
+- [SP02 Materialized Views — shipped](project_sp02_state.md) — 5 MVs + rs_velocity column live on EC2; pg_cron nightly refresh at 20:00 IST; query files exist but pages not yet rewired
+- [SP03 OpenBB BYO Copilot — code shipped](project_sp03_state.md) — /v1/agents.json + /v1/query SSE endpoints smoke-tested on EC2; OPENBB_BACKEND_API_KEY in EC2 .env; NOT yet publicly exposed (needs nginx + systemd)
+- [SP07 Hermes Agent Runtime — shipped](project_sp07_state.md) — 4 specialists live on EC2 via Groq Llama 3.3 70B (pivot from full Hermes); CLI + REST endpoint; SEBI guard catches tool-use failures and prevents hallucination
+- [SP08 Intraday Live State Engine — committed, EC2 deploy pending](project_sp08_state.md) — commit f33abbb; 108 tests pass; EC2 steps required (Kite app, .env, pip install, migration 042, systemd units)
+- [SP04 Stage 3 Conviction — shipped](project_sp04_stage3_state.md) — v2 tiered conviction composite live on atlas.jslwealth.in. T1+T3 industry-grade (IC>=0.05), T2/T4/T5 baseline. SP07 stock_screener consumes get_top_conviction.
+- [SP04 Stage 4a Auto-Optimization Loop — shipped](project_sp04_stage4a_state.md) — nightly rolling IC + candidate generator + admin approval UI with 15% Bayesian smoothing. /admin/composite-proposals renders pending; frontend secret deploy is the only open one-time step.
+- [SP04 Stage 4c Live Monitoring + Hit-Rate + Auto-Revert — shipped](project_sp04_stage4c_state.md) — realized-IC tracker, hit-rate primitive, drift detector. First live-IC shows T4 lower-mid at -0.033 vs +0.027 predicted (anti-predictive — canary working). T2/T4 hit-rate viz live on /admin/weight-performance; 60-day data required before auto-revert promotes from dry to apply.
+- [MF data pipeline — fixed](project_mf_data_pipeline.md) — 336/587 funds with states; 148-fund JIP gap fixed via mfapi.in backfill; supplemental sync wired into nightly cron as step [1b]
+- [Validator Phase C Route Crawler — CEO plan finalized](project_validator_phase_c_state.md) — Playwright crawler, direct cookie auth (atlas_auth=ATLAS_PASSWORD), migration needed for finding_class CHECK, /plan-eng-review next gate
+- [SP09 CTS Timing Engine — branch shipped, EC2 deploy pending](project_sp09_state.md) — Stage/PPC/NPC/Contraction classifier + LLM brief + frontend badges; branch `worktree-feat+sp09-cts-timing-engine` pushed; EC2 needs migration 043 + 504-day backfill before production
+- [SP10 Intraday Live Panels — LIVE](project_sp10_state.md) — Nifty strip, sector movers, live prices, stock badge all live; migration 058 applied; restart atlas-internal-recompute (8002) for intraday deploys
+- [US stocks backfill — complete, DQ verified](project_us_stocks_backfill_state.md) — 2.03M rows on frontend EC2; 5 yellow issues (34 missing Stooq tickers, bad Stooq prices on 3 dates, NULLs by design, no Emerging state, no VIX); safe for frontend
+- [v6 RS Trading Model — RETIRED](project_v6_state.md) — retired 2026-05-20 (tag v6-retired-2026-05-20); superseded by the Signal Discovery Engine
+- [Atlas Decision Engine + State Engine](project_atlas_decision_engine.md) — ACTIVE trading-product thread; consolidation worktree; Policy ∩ engine; Wave-4 bot direction
+- [Signal Discovery Engine state](project_sde_state.md) — set aside 2026-05-20; Phase 0 spike built+run (qualified-yellow result); superseded by the Decision Engine
+- [Signal Discovery 2026-05 — methodology locked](project_signal_discovery_2026_05.md) — ACTIVE; 9 experiments; Sharpe 1.33 / Jensen alpha +27% / 6 per-(tier×stage) sub-states validated; methodology doc at docs/atlas-signal-discovery/methodology-lock-2026-05-23.md; next gate is validation pass (spot-check correctness), then complete the matrix with Stage 1+3, then walk-forward all 12
+- [Adopt libraries, drive to outcomes](feedback_simplify_adopt_libraries.md) — for build work: integrate mature libraries over bespoke code; no paper citations; ship fast
+- [Specs as rich HTML, not plain .md](feedback_specs_as_html.md) — deliver design specs as self-contained HTML with embedded UI mockups in the Atlas visual language
+- [v6 overnight build lessons](feedback_v6_overnight_lessons.md) — linter revert pattern, runtime safety classifier blocks, migration chain coordination across parallel branches
+- [Supabase MCP gate](reference_supabase_mcp_gate.md) — read-only auto-allowed; writes need `.supabase-write-approved`; deletes need TWO markers; apply_migration hard-denied (use Alembic)
+- [v6 morning state 2026-05-25](project_v6_2026_05_25_morning_state.md) — matrix LIVE on Supabase atlas-os; scorecard_daily backfilled (747 rows); conviction_tape 100% NEUTRAL due to features JSONB gap; fix in progress
+- [v6 overnight build 2026-05-26 — LIVE on atlas.jslwealth.in](project_v6_2026_05_26_overnight_state.md) — 50 commits, 4 migrations, 363 signal_calls + 9 etf_signal_calls + 14 switch_rules backfilled real, all 9 v6 routes 200 OK, ZERO synthetic data
+- [scorecard ↔ deep-search feature integration](feedback_scorecard_deep_search_integration.md) — scorecard_writer must call _compute_feature_panels and write all 30+ features to features JSONB
+- [Skill loop process — MANDATORY for frontend builds](feedback_skill_loop_process.md) — plan-design-review → plan-eng-review → writing-plans → codex → subagent-driven-dev + fund-manager-critic → design-review → qa; never shortcut
+- [Backend-first; verify against LIVE DB, not migration files](feedback_backend_first_live_db_truth.md) — migrations on disk ≠ migrations applied; check Supabase before planning
+- [Implementer subagents must invoke planning skill](feedback_implementer_skill_invocation_required.md) — TDD/plan-eng-review skill required to create the pre-edit hook marker before editing gated paths
+- [CHECK frontend/src/components/v6/ FIRST](feedback_check_v6_components_first.md) — 114 components live there; duplicating them caused a session-long mockup-divergence failure on 2026-05-27. Always ls before writing UI.
+- [v6 build plan is source of truth](reference_v6_build_plan_source_of_truth.md) — docs/superpowers/plans/2026-05-26-v6-frontend-build.md (60-task spine, twice-adversarially-reviewed); Recharts not ECharts; vocabulary lock matters
+- [v6 MV count breakdown](project_v6_mv_count_breakdown.md) — 14 total expected, 7 live, 7 deferred on EC2 Python compute; ALWAYS state both numbers
+- [Macro ingest sources — B.1](reference_macro_ingest_sources.md) — 8 columns, 6/8 at ≥95% (PASS), FII/DII BLOCKED (NSE archives 404); risk_free_91d uses IRSTCI01INM156N proxy; VIX via Yahoo Finance ^INDIAVIX; two-tier forward-fill (monthly + trading-day gaps); commits e9bd8955+a2ca113f
+- [BACKEND 100% before frontend; mockups are spec, not suggestions](feedback_backend_100_before_frontend_mockups_strict.md) — non-negotiable. "Partial backend" is not a state. Stubbed mockup sections shipped to prod is a Rule B violation. Read BEFORE optimizing.
+- [Data source policy — bhavcopy / Stooq+yfinance / AMFI+MS](feedback_data_source_policy.md) — Indian stocks/ETFs/indices ONLY from NSE bhavcopy; global ONLY from Stooq/yfinance; MFs from AMFI + Morningstar API. No mixing.
+- [Atlas explainer / flywheel ethos](feedback_atlas_explainer_flywheel.md) — never a black box; every auto-action surfaces math + before/after + which downstream metric improves; methodology + admin must lead with plain-English explainers
+- [Everything clickable / cross-navigable](feedback_everything_clickable.md) — every card, name, ticker, sector, fund, ETF, cell label, threshold name etc. must be a Link to its deep-dive page; dead text identifiers are anti-pattern
+- [Fund methodology v2 (IC-weighted)](project_fund_methodology_v2.md) — 2026-05-30 PR #95; momentum+consistency dominate (IC ~0.11), drawdown/vol zero-IC (dropped), holdings/style are unvalidated priors; fixed dead-conviction-table bug
+- [LIVE frontend deploy path](reference_frontend_deploy_path.md) — UPDATED 2026-05-30: now GIT-BASED. atlas.jslwealth.in serves from /home/ubuntu/atlas-os/frontend (repo), pm2 `atlas-frontend` :3002; deploy = git pull + npm ci + build + pm2 restart atlas-frontend. v2 tree RETIRED. Auth now ON (middleware in src/).
+- [Production-readiness inventory](../../../Documents/GitHub/atlas-os/docs/v6/2026-05-30-production-readiness-inventory.md) — 26-item master tracker; DONE = live page renders the value; A1/A2/A3 (P0s) shipped live 2026-05-30
+- [v6 prod-readiness session 2 (2026-05-30)](project_v6_prod_readiness_2026_05_30.md) — entire A-E inventory + F done & verified LIVE; deploy consolidated to git + auth restored; handoff = H builds + pooler + :8020 + sector-mapping + dead-code

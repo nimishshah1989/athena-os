@@ -1,0 +1,3 @@
+- [Search Engine Feedback](feedback_search_issues.md) — Ranking, Hindi search, highlighting, UI, and feature requests from Apr 2026 testing
+- [Osho Search Project](project_osho_search.md) — FTS5 search engine over ~1.3M Osho discourse paragraphs, EC2+Vercel
+- [Rigorous Testing Required](feedback_rigorous_testing.md) — Must thoroughly test Hindi search and highlighting before shipping

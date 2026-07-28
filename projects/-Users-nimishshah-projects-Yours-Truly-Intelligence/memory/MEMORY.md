@@ -1,0 +1,2 @@
+- [Scheduler deployed](project_scheduler_deployed.md) — Phase E complete, dress rehearsal next session
+- [Forge runner is live for YTIP](project_forge_runner_active.md) — all new dev goes through `forge run`. Ops guide: `docs/FORGE_RUNNER.md`

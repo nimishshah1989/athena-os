@@ -1,0 +1,25 @@
+# Memory Index
+
+- [project_compass.md](project_compass.md) — Sector Compass RS momentum + model portfolio system built for FIE2 (2026-03-21)
+- [project_selflearn_engine.md](project_selflearn_engine.md) — Planned autonomous RS trading engine with 3 model portfolios, risk mgmt, self-learning
+- [compass_bugs_issues.md](compass_bugs_issues.md) — Critical bugs: N+1 queries, data re-fetch, Pydantic mismatches, portfolio sizing
+- [compass_architecture.md](compass_architecture.md) — Data flow, refresh schedule, model portfolio engine architecture
+- [user_nimish.md](user_nimish.md) — User profile: Nimish Shah, Jhaveri platform owner, values risk mgmt + autonomy
+- [feedback_autonomous.md](feedback_autonomous.md) — Don't ask for confirmation, just build autonomously
+- [feedback_rs_ratio.md](feedback_rs_ratio.md) — RS Score should be relative return ratio (not percentile rank)
+- [feedback_no_weights.md](feedback_no_weights.md) — No arbitrary weights; use gate-based AND/OR logic, not weighted scoring
+- [compass_agentic_lab.md](compass_agentic_lab.md) — Lab v2: Calmar composite, train/test, bootstrap, overnight sweep results (2026-03-22)
+- [deployment_production.md](deployment_production.md) — Production deploy: server 13.206.34.214, container marketpulse, port 8004, RDS
+- [project_excess_calmar_v2.md](project_excess_calmar_v2.md) — Excess Calmar v2: idle capital earns returns (liquid/Nifty), loosen gates (2-of-3), next steps
+- [fix_regime_metrics_wip.md](fix_regime_metrics_wip.md) — WIP: fixing per-regime benchmark/excess metrics — RegimeMetrics fields added, need compute + extraction fix
+- [feedback_auto_context.md](feedback_auto_context.md) — Auto-save memory and restart session when context runs low, don't ask permission
+- [momentum_v3_simulator.md](momentum_v3_simulator.md) — Clean momentum simulator v3: 6M+12M dual, 3 positions, +10% alpha, 20/20 train/test validated
+- [feedback_push_remote.md](feedback_push_remote.md) — ALWAYS push to remote after commits — user can't see or test local-only commits
+- [sweep_etf_stock_runbook.md](sweep_etf_stock_runbook.md) — Commands to run ETF + stock momentum sweeps overnight on production
+- [session_2026_03_24_tasks.md](session_2026_03_24_tasks.md) — Pending: pulse drill-down, portfolio allocation, sentiment gauges, sentiment actionables
+- [etf_index_mapping_plan.md](etf_index_mapping_plan.md) — ETF→index mapping from TradingView watchlist, gaps identified
+- [feedback_nse_libraries.md](feedback_nse_libraries.md) — ALWAYS use NSE libraries (jugaad-data, nsetools) over yfinance for Indian market data
+- [feedback_master_price_db.md](feedback_master_price_db.md) — Single master OHLCV store (index_prices), never re-download existing data, gap-fill only
+- [session_2026_03_25_ai_commentary.md](session_2026_03_25_ai_commentary.md) — AI commentary + Starlette 1.0.0 routing fix deployed
+- [session_2026_03_26_bhavcopy_singlepass.md](session_2026_03_26_bhavcopy_singlepass.md) — Bhavcopy master OHLCV + single-pass breadth + sector stocks table
+- [feedback_efficiency.md](feedback_efficiency.md) — CRITICAL: discuss before coding, minimal changes only, no unnecessary docker rebuilds, use SQL shortcuts

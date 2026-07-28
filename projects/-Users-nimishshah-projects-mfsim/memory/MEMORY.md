@@ -1,0 +1,3 @@
+- [T15+T16 Complete](project_t15_t16_complete.md) — Frontend redesign Pass 1+2 fully deployed to EC2 on 2026-04-03
+- [T17 Engine Bugs](project_t17_engine_bugs.md) — Lumpsum double-counting and SIP idle cash bugs fixed
+- [T18 Frontend Pass 3](project_t18_frontend_pass3.md) — Unified filter, ranking matrix, sticky headers deployed 2026-04-04
