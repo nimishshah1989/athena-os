@@ -1,0 +1,125 @@
+#!/usr/bin/env python3
+"""Detect and repair Claude memory orphaned by a moved repo.
+
+Claude Code keys project memory by folder path (~/.claude/projects/<encoded-path>/memory/).
+Move a repo and every learning it accumulated is silently stranded. This happened to
+atlas-os twice before it was noticed.
+
+    rekey-memory            # report only
+    rekey-memory --fix      # re-key what it can match unambiguously
+
+Matching is by directory basename under the search roots. Ambiguous or unmatched keys are
+reported, never guessed at.
+"""
+import os
+import shutil
+import sys
+
+PROJECTS = os.path.expanduser("~/.claude/projects")
+SEARCH_ROOTS = [os.path.expanduser(p) for p in ("~/All AI", "~", "~/projects", "~/dev")]
+MAX_DEPTH = 3
+
+
+def encode(path: str) -> str:
+    """Claude Code's key encoding: non-alphanumeric path chars become '-'."""
+    return "".join(c if c.isalnum() else "-" for c in path)
+
+
+def find_repos() -> dict[str, list[str]]:
+    """basename -> [absolute paths] for every git repo under the search roots."""
+    found: dict[str, list[str]] = {}
+    seen: set[str] = set()
+    for root in SEARCH_ROOTS:
+        if not os.path.isdir(root):
+            continue
+        for dirpath, dirnames, _ in os.walk(root):
+            depth = dirpath[len(root):].count(os.sep)
+            if depth >= MAX_DEPTH:
+                dirnames[:] = []
+                continue
+            dirnames[:] = [d for d in dirnames if not d.startswith(".") and d != "node_modules"]
+            if os.path.isdir(os.path.join(dirpath, ".git")):
+                real = os.path.realpath(dirpath)
+                if real not in seen:
+                    seen.add(real)
+                    found.setdefault(os.path.basename(dirpath), []).append(dirpath)
+                dirnames[:] = []
+    return found
+
+
+def main() -> int:
+    fix = "--fix" in sys.argv
+    if not os.path.isdir(PROJECTS):
+        print("no ~/.claude/projects")
+        return 1
+
+    repos = find_repos()
+    live, orphaned = [], []
+
+    for key in sorted(os.listdir(PROJECTS)):
+        mem = os.path.join(PROJECTS, key, "memory")
+        if not os.path.isdir(mem):
+            continue
+        count = len([f for f in os.listdir(mem) if f.endswith(".md")])
+        if count == 0:
+            continue
+        # A key is live if some known repo encodes to it.
+        if any(encode(p) == key for paths in repos.values() for p in paths):
+            live.append((key, count))
+        else:
+            orphaned.append((key, count, mem))
+
+    print(f"live: {len(live)} project(s)")
+    for key, count in live:
+        print(f"  {count:>4} files  {key}")
+
+    if not orphaned:
+        print("\nno orphaned memory. nothing to do.")
+        return 0
+
+    print(f"\nORPHANED: {len(orphaned)} key(s) with no matching repo on disk")
+    exit_code = 0
+    for key, count, mem in orphaned:
+        guess = key.rstrip("-").split("-")[-1]
+        cands = repos.get(guess, [])
+        print(f"\n  {count:>4} files  {key}")
+        if len(cands) == 1:
+            target = encode(cands[0])
+            print(f"         -> {cands[0]}")
+            if not fix:
+                print("            (run with --fix to re-key)")
+                exit_code = 2
+                continue
+            dst = os.path.join(PROJECTS, target, "memory")
+            os.makedirs(dst, exist_ok=True)
+            moved = 0
+            for f in os.listdir(mem):
+                if not f.endswith(".md"):
+                    continue
+                if f == "MEMORY.md" and os.path.exists(os.path.join(dst, f)):
+                    # merge index rather than clobber it
+                    with open(os.path.join(dst, f), "a") as out, open(os.path.join(mem, f)) as src:
+                        out.write("\n" + src.read())
+                    os.remove(os.path.join(mem, f))
+                    continue
+                if os.path.exists(os.path.join(dst, f)):
+                    continue
+                shutil.move(os.path.join(mem, f), os.path.join(dst, f))
+                moved += 1
+            print(f"            re-keyed {moved} file(s)")
+        elif len(cands) > 1:
+            print(f"         AMBIGUOUS - {len(cands)} candidates, not touching:")
+            for c in cands:
+                print(f"            {c}")
+            exit_code = 2
+        else:
+            print("         no matching repo found (project deleted?) - left in place")
+            exit_code = 2
+
+    if not fix and exit_code == 2:
+        print("\nre-run with --fix to repair the unambiguous ones.")
+    return exit_code
+
+
+if __name__ == "__main__":
+    sys.exit(main())
