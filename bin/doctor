@@ -183,11 +183,17 @@ for d in ~/"All AI"/*/; do
   [ -z "$miss" ] && ok "$n — CLAUDE/STATE/HANDOFF" || bad "$n — missing:$miss"
   # A stale mirror reports on a snapshot, not the project. atlas-os was 316
   # commits behind on 2026-07-29 and the scorecard measured the 8-week-old tree.
-  UP=$(git -C "$d" rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null || true)
-  if [ -n "$UP" ]; then
-    BEHIND=$(git -C "$d" rev-list --count HEAD.."$UP" 2>/dev/null || echo 0)
+  # Compare against the remote DEFAULT branch, not the current branch's upstream —
+  # atlas-os sat on a branch whose upstream was deleted, so an @{u} check saw nothing
+  # while HEAD was 316 commits behind origin/main.
+  DEF=$(git -C "$d" symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null \
+        || { git -C "$d" show-ref -q refs/remotes/origin/main && echo origin/main; } \
+        || { git -C "$d" show-ref -q refs/remotes/origin/master && echo origin/master; } \
+        || true)
+  if [ -n "$DEF" ]; then
+    BEHIND=$(git -C "$d" rev-list --count HEAD.."$DEF" 2>/dev/null || echo 0)
     if [ "${BEHIND:-0}" -gt 20 ]; then
-      bad "$n — $BEHIND commits behind $UP; any measurement of it is of a stale snapshot"
+      bad "$n — HEAD is $BEHIND commits behind $DEF; measuring it measures a stale snapshot"
     fi
   fi
 done
