@@ -125,7 +125,14 @@
       "mcp__plugin_serena_serena__find_symbol",
       "Bash(cd ~/\"All AI\"/atlas-os)",
       "Bash(timeout 25 npx -y @21st-dev/magic@latest)",
-      "Bash(echo \"  exit=$?\")"
+      "Bash(echo \"  exit=$?\")",
+      "Bash(grep -vE '^\\\\s*$|^\\\\s*#' scripts/ops/promote_box_to_main.sh)",
+      "Bash(grep -vE '^\\\\s*$|^\\\\s*#' scripts/ops/atlas-auto-deploy.sh)",
+      "Bash(timeout 420 make typecheck)",
+      "Bash(timeout 420 uv run --extra dev python scripts/ci/pyright_ratchet.py)",
+      "Bash(timeout 300 python3 -m venv /tmp/maalvenv)",
+      "Bash(timeout 400 /tmp/maalvenv/bin/pip install -q -r backend/requirements.txt)",
+      "Bash(timeout 240 /tmp/maalvenv/bin/python -m pytest -q)"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",
