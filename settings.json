@@ -59,7 +59,8 @@
       "Bash(timeout 120 npx --yes aislop@latest hook install --help)",
       "Bash(timeout 180 npx --yes aislop@latest hook install --claude --global --quality-gate --dry-run)",
       "Bash(timeout 240 npx --yes aislop@latest hook install --claude --global --quality-gate --yes)",
-      "Bash(timeout 200 npx --yes aislop@latest scan --include '_gate_probe.py')"
+      "Bash(timeout 200 npx --yes aislop@latest scan --include '_gate_probe.py')",
+      "Bash(crontab -l)"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",
