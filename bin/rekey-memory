@@ -63,8 +63,10 @@ def main() -> int:
         count = len([f for f in os.listdir(mem) if f.endswith(".md")])
         if count == 0:
             continue
-        # A key is live if some known repo encodes to it.
-        if any(encode(p) == key for paths in repos.values() for p in paths):
+        # A key is live if some known repo encodes to it, or it is a real
+        # directory in its own right (the home-dir key is legitimate, not a repo).
+        decoded_exists = os.path.isdir("/" + key.lstrip("-").replace("-", "/"))
+        if decoded_exists or any(encode(p) == key for paths in repos.values() for p in paths):
             live.append((key, count))
         else:
             orphaned.append((key, count, mem))

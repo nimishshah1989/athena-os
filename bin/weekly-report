@@ -1,0 +1,119 @@
+#!/usr/bin/env python3
+"""Weekly build report, in plain English.
+
+The rule that matters: this reports what did NOT happen. Six months passed with
+no visible learnings because every failure was silent — a dead loop announces
+itself here within 7 days instead of never.
+
+    weekly-report          # last 7 days
+    weekly-report 30       # last 30 days
+"""
+import glob
+import os
+import subprocess
+import sys
+import time
+
+ROOT = os.path.expanduser("~/All AI")
+MEM = os.path.expanduser("~/.claude/projects")
+DAYS = int(sys.argv[1]) if len(sys.argv) > 1 and sys.argv[1].isdigit() else 7
+
+
+def sh(cmd, cwd=None):
+    try:
+        return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True,
+                              timeout=60).stdout.strip()
+    except Exception:
+        return ""
+
+
+def main():
+    if not os.path.isdir(ROOT):
+        print(f"no {ROOT}")
+        return 1
+
+    repos = sorted(d for d in os.listdir(ROOT)
+                   if os.path.isdir(os.path.join(ROOT, d, ".git")))
+    since = f"--since={DAYS}.days.ago"
+
+    print(f"\n{'='*60}\nBUILD REPORT — last {DAYS} days\n{'='*60}")
+
+    # ---------- what shipped ----------
+    print("\nSHIPPED")
+    silent = []
+    for r in repos:
+        p = os.path.join(ROOT, r)
+        commits = [c for c in sh(["git", "log", since, "--oneline"], cwd=p).splitlines() if c]
+        if commits:
+            print(f"  {r}: {len(commits)} commit(s)")
+            for c in commits[:3]:
+                print(f"      {c[:72]}")
+            if len(commits) > 3:
+                print(f"      … and {len(commits)-3} more")
+        else:
+            silent.append(r)
+
+    # ---------- what was learned ----------
+    print("\nLEARNED")
+    cutoff = time.time() - DAYS * 86400
+    total = 0
+    for d in sorted(glob.glob(f"{MEM}/*/memory")):
+        fresh = [f for f in glob.glob(f"{d}/*.md")
+                 if os.path.getmtime(f) > cutoff and not f.endswith("MEMORY.md")]
+        if fresh:
+            key = d.split("/")[-2].replace("-Users-nimishshah-All-AI-", "").replace("-Users-nimishshah", "(home)")
+            print(f"  {key}: {len(fresh)} memory file(s) written")
+            for f in fresh[:3]:
+                print(f"      {os.path.basename(f)[:-3]}")
+            total += len(fresh)
+    if total == 0:
+        print("  ** NOTHING LEARNED THIS PERIOD **")
+        print("  No memory files written. Either no corrections happened, or")
+        print("  capture is broken again. Verify before assuming the former.")
+
+    # ---------- what did NOT happen ----------
+    print("\nDID NOT HAPPEN  (the section that matters)")
+    if silent:
+        print(f"  No commits in {DAYS}d: {', '.join(silent)}")
+
+    stale_mem = []
+    for r in repos:
+        for f in ("STATE.md", "HANDOFF.md"):
+            fp = os.path.join(ROOT, r, f)
+            if not os.path.exists(fp):
+                stale_mem.append(f"{r}/{f} MISSING")
+            elif (time.time() - os.path.getmtime(fp)) / 86400 > 14:
+                age = int((time.time() - os.path.getmtime(fp)) / 86400)
+                stale_mem.append(f"{r}/{f} ({age}d)")
+    if stale_mem:
+        print(f"  Memory not updated: {', '.join(stale_mem)}")
+
+    no_evals = []
+    for r in repos:
+        p = os.path.join(ROOT, r)
+        if os.path.isdir(os.path.join(p, "evals")):
+            continue
+        hit = sh(["bash", "-c", "grep -rl --include=*.py --include=*.ts -e anthropic -e openai . "
+                                "2>/dev/null | grep -v node_modules | grep -v '\\.venv' | head -1"], cwd=p)
+        if hit:
+            no_evals.append(r)
+    if no_evals:
+        print(f"  LLM calls with no evals/: {', '.join(no_evals)}")
+
+    orphan = sh(["python3", os.path.expanduser("~/.claude/bin/rekey-memory")])
+    if "ORPHANED" in orphan:
+        n = orphan.count("files  -Users")
+        print(f"  Orphaned memory keys detected — run: rekey-memory --fix")
+
+    if not (silent or stale_mem or no_evals):
+        print("  (nothing flagged)")
+
+    print("\nNEXT")
+    print("  scorecard        full quality detail per repo")
+    print("  rekey-memory     check for memory orphaned by a moved repo")
+    print(f"{'='*60}\n")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

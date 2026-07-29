@@ -67,7 +67,9 @@
       "Bash(timeout 300 npx --yes aislop@latest scan --json)",
       "Bash(chmod +x ~/.claude/bin/scorecard)",
       "Bash(timeout 500 python3 ~/.claude/bin/scorecard careerplus)",
-      "Bash(timeout 900 python3 ~/.claude/bin/scorecard)"
+      "Bash(timeout 900 python3 ~/.claude/bin/scorecard)",
+      "Bash(chmod +x ~/.claude/bin/weekly-report)",
+      "Bash(timeout 400 python3 ~/.claude/bin/weekly-report)"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",
