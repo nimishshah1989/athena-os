@@ -48,7 +48,9 @@
       "Bash(git fsck *)",
       "Bash(echo \"fsck exit: $?\")",
       "Bash(python3 -c \"import json; json.load\\(open\\('settings.json'\\)\\); print\\('  valid'\\)\")",
-      "Bash(python3)"
+      "Bash(python3)",
+      "Bash(timeout 240 npx --yes aislop@latest check)",
+      "Bash(echo \"exit: $?\")"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",
