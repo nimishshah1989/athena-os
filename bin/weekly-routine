@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# Weekly build rhythm. Run by launchd; also runnable by hand.
+#
+# Writes a dated report to ~/All AI/_reports/. If no new file appears on a
+# Monday, the routine is dead — that visibility is the point. Every prior
+# scheduled thing in this setup failed silently for months.
+set -uo pipefail
+
+REPORTS="$HOME/All AI/_reports"
+mkdir -p "$REPORTS"
+STAMP=$(date +%Y-%m-%d)
+OUT="$REPORTS/$STAMP.md"
+BIN="$HOME/.claude/bin"
+
+{
+  echo "# Build report — $STAMP"
+  echo
+  echo '```'
+  python3 "$BIN/weekly-report" 2>&1
+  echo '```'
+  echo
+  echo "## Quality detail"
+  echo '```'
+  python3 "$BIN/scorecard" 2>&1
+  echo '```'
+  echo
+  echo "## Memory integrity"
+  echo '```'
+  python3 "$BIN/rekey-memory" 2>&1
+  echo '```'
+  echo
+  echo "---"
+  echo "Generated $(date '+%Y-%m-%d %H:%M %Z') by weekly-routine."
+  echo "If the newest file here is more than 8 days old, this routine has died —"
+  echo "check: launchctl list | grep athena"
+} > "$OUT" 2>&1
+
+# Prune reports older than a year; keep the rhythm, not a hoard.
+find "$REPORTS" -name '*.md' -mtime +365 -delete 2>/dev/null
+
+# Surface it — a report nobody sees is a report that does not exist.
+osascript -e "display notification \"Build report ready — $STAMP\" with title \"Athena OS\"" 2>/dev/null || true
+
+echo "$OUT"

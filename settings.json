@@ -69,7 +69,14 @@
       "Bash(timeout 500 python3 ~/.claude/bin/scorecard careerplus)",
       "Bash(timeout 900 python3 ~/.claude/bin/scorecard)",
       "Bash(chmod +x ~/.claude/bin/weekly-report)",
-      "Bash(timeout 400 python3 ~/.claude/bin/weekly-report)"
+      "Bash(timeout 400 python3 ~/.claude/bin/weekly-report)",
+      "Bash(chmod +x ~/.claude/bin/weekly-routine)",
+      "Bash(launchctl unload *)",
+      "Bash(launchctl load *)",
+      "Bash(launchctl list *)",
+      "Bash(timeout 900 bash ~/.claude/bin/weekly-routine)",
+      "Skill(schedule)",
+      "Skill(schedule:*)"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",
