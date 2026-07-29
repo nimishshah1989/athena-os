@@ -89,7 +89,18 @@
       "Bash(npm view *)",
       "Bash(npm install *)",
       "Bash(aislop --version)",
-      "Bash(ln -sfn ~/.claude ~/\"All AI\"/_os)"
+      "Bash(ln -sfn ~/.claude ~/\"All AI\"/_os)",
+      "Bash(gh api *)",
+      "Bash(gh repo *)",
+      "Bash(timeout 240 uv run pytest -q)",
+      "Bash(timeout 200 uv sync -q)",
+      "Bash(timeout 200 uv run pytest -q)",
+      "Bash(timeout 300 uv run pytest -q)",
+      "Bash(timeout 100 uv run python -c \"import sys,shutil;print\\('exe:',sys.executable\\)\")",
+      "Bash(timeout 100 uv run which pytest)",
+      "Bash(timeout 300 uv run python -m pytest -q)",
+      "Bash(timeout 200 uv run python -m pytest -q)",
+      "Bash(awk '{print \"  \",$6,$7,$8,$9,$10,$11}')"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",
