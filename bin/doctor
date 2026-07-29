@@ -123,7 +123,9 @@ fi
 
 head_ "7. Per-project context"
 for d in ~/"All AI"/*/; do
-  n=$(basename "$d"); [ "$n" = "_reports" ] && continue
+  n=$(basename "$d")
+  case "$n" in _*) continue;; esac      # _reports, _archive, _os symlink
+  [ -L "${d%/}" ] && continue           # never descend a symlink
   [ -d "$d/.git" ] || continue
   miss=""
   for f in CLAUDE.md STATE.md HANDOFF.md; do [ -f "$d/$f" ] || miss="$miss $f"; done

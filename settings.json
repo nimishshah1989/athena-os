@@ -88,7 +88,8 @@
       "Bash(zsh -lc 'which aislop; aislop --version')",
       "Bash(npm view *)",
       "Bash(npm install *)",
-      "Bash(aislop --version)"
+      "Bash(aislop --version)",
+      "Bash(ln -sfn ~/.claude ~/\"All AI\"/_os)"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",
