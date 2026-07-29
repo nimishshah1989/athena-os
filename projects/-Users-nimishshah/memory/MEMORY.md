@@ -8,3 +8,5 @@
 - [Athena OS v2 rebuild](athena-os-v2-rebuild.md) — memory was orphaned by repo moves, not lost; skill ambiguity caused inconsistency; all failures were silent
 - [Feedback: autonomous build mode](feedback_autonomous_build_mode.md) — build chunk to chunk without approval pauses; interrupt only when blocked on him
 - [Feedback: digestible docs](feedback_digestible_docs.md) — pair every design/architecture doc with a visual HTML artifact in plain founder language
+- [Claude artifact exports](reference_claude_artifact_exports.md) — a downloaded artifact .html is a wrapper; extract the JSON-escaped line, never read it whole
+- [Athena OS layout](reference_athena_os_layout.md) — repos in ~/All AI, config in ~/.claude via _os symlink, bin/doctor proves the wiring
