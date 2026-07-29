@@ -123,7 +123,9 @@
       "Bash(grep -v '^\\\\s*$')",
       "mcp__plugin_serena_serena__get_symbols_overview",
       "mcp__plugin_serena_serena__find_symbol",
-      "Bash(cd ~/\"All AI\"/atlas-os)"
+      "Bash(cd ~/\"All AI\"/atlas-os)",
+      "Bash(timeout 25 npx -y @21st-dev/magic@latest)",
+      "Bash(echo \"  exit=$?\")"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",
