@@ -55,5 +55,7 @@ Static analysis every commit (free); LLM review weekly, changed code only.
 ## Pointers
 Design → `~/.claude/design/DESIGN-LANGUAGE.md` · Domain rules → `~/.claude/rules/` (auto-loaded)
 Research → project `research/`, never left in chat. Never put dates/ids here (busts prompt cache).
+Context ceiling is mechanical (70% + a Read-size guard) — **never re-add it here as an instruction;
+I cannot see my own usage.** Big file? Find the payload before reading it, never read it whole.
 
 @AISLOP.md

@@ -1,5 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "0.7"
+  },
   "permissions": {
     "allow": [
       "Bash(./setup)",
@@ -107,7 +110,11 @@
       "Bash(~/.local/bin/headroom memory *)",
       "Bash(awk '{print \"now:\",$1,\"lines \\(limit 50\\)\"}')",
       "Bash(grep -vcE '^\\\\s*$|^#' ~/.claude/CLAUDE.md)",
-      "Bash(grep -cE '^\\\\s*$' ~/.claude/CLAUDE.md)"
+      "Bash(grep -cE '^\\\\s*$' ~/.claude/CLAUDE.md)",
+      "Bash(lsof -nP -iTCP:24283 -sTCP:LISTEN)",
+      "Bash(~/.claude/hooks/pre-read-size-guard.sh)",
+      "Bash(echo \" exit=$? \\(expect 0 = allowed\\)\")",
+      "Bash(~/.claude/hooks/pre-compact-preserve.sh)"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",
@@ -167,6 +174,15 @@
           {
             "type": "command",
             "command": "python3 $HOME/.claude/hooks/pre-supabase-sql-guard.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/pre-read-size-guard.sh"
           }
         ]
       }
@@ -255,6 +271,17 @@
           {
             "type": "command",
             "command": "aislop hook claude --stop"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/pre-compact-preserve.sh"
           }
         ]
       }

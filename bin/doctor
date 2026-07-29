@@ -72,14 +72,40 @@ fire pre-edit-no-pii-logging.sh block "app/portfolio/kyc.py" \
 fire pre-edit-no-pii-logging.sh pass "app/portfolio/kyc.py" \
   'logger.info("pan=redacted")' "redacted log allowed"
 
-head_ "3. aislop gate"
+head_ "3. Context ceiling"
+PCT=$(python3 -c "
+import json,os
+d=json.load(open(os.path.expanduser('~/.claude/settings.json')))
+print(d.get('env',{}).get('CLAUDE_AUTOCOMPACT_PCT_OVERRIDE','unset'))" 2>/dev/null)
+if [ "$PCT" = "unset" ]; then
+  bad "no compaction ceiling set — running on the server default"
+else
+  ok "auto-compact ceiling at ${PCT} of the window"
+fi
+# the ceiling is only checked between turns, so the single-result guard is the
+# half that actually prevents a one-shot blowout
+BIG=$(mktemp); python3 -c "print('x'*400000)" > "$BIG"
+jq -nc --arg f "$BIG" '{tool_name:"Read",tool_input:{file_path:$f}}' \
+  | "$C/hooks/pre-read-size-guard.sh" >/dev/null 2>&1
+[ $? -ne 0 ] && ok "oversized unbounded Read blocked" || bad "read guard did NOT block a 400KB file"
+jq -nc --arg f "$BIG" '{tool_name:"Read",tool_input:{file_path:$f,limit:100}}' \
+  | "$C/hooks/pre-read-size-guard.sh" >/dev/null 2>&1
+[ $? -eq 0 ] && ok "sliced Read still allowed" || bad "read guard wrongly blocked a sliced read"
+rm -f "$BIG"
+OUT=$(echo '{"trigger":"auto"}' | "$C/hooks/pre-compact-preserve.sh" 2>/dev/null)
+case "$OUT" in
+  *"clean boundary"*) ok "PreCompact preserves task state" ;;
+  *) bad "PreCompact hook produced no instructions — compaction runs unguided" ;;
+esac
+
+head_ "4. aislop gate"
 if command -v aislop >/dev/null 2>&1; then
   ok "aislop on PATH ($(aislop --version 2>/dev/null | head -1))"
 else
   bad "aislop NOT on PATH — the PostToolUse gate is dead"
 fi
 
-head_ "4. Weekly routine"
+head_ "5. Weekly routine"
 if launchctl list 2>/dev/null | grep -q com.athena.weekly-routine; then
   ok "launchd job com.athena.weekly-routine registered"
 else
@@ -94,7 +120,7 @@ else
   bad "no report in ~/All AI/_reports — routine has never produced output"
 fi
 
-head_ "5. Memory index integrity"
+head_ "6. Memory index integrity"
 MEM=$C/projects/-Users-nimishshah/memory
 if [ -f "$MEM/MEMORY.md" ]; then
   MISSING=0
@@ -110,7 +136,7 @@ else
   bad "MEMORY.md missing at $MEM"
 fi
 
-head_ "6. Design language wired"
+head_ "7. Design language wired"
 [ -f "$C/design/reference/tokens.css" ] && ok "tokens.css present" || bad "tokens.css missing"
 grep -q 'F4F0E5' "$C/design/DESIGN-LANGUAGE.md" 2>/dev/null \
   && ok "DESIGN-LANGUAGE.md carries the real palette" \
@@ -121,7 +147,7 @@ else
   ok "no stale teal references"
 fi
 
-head_ "7. Per-project context"
+head_ "8. Per-project context"
 for d in ~/"All AI"/*/; do
   n=$(basename "$d")
   case "$n" in _*) continue;; esac      # _reports, _archive, _os symlink
