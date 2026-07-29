@@ -6,3 +6,5 @@
 - [Feedback: agent parallelism](feedback_agent_parallelism.md) — Don't launch too many parallel agents at once; rate limits hit
 - [CareerPlus project](project_careerplus.md) — job-search SaaS at ~/All AI/careerplus; read repo STATE.md+HANDOFF.md first; D-020 complete-product MVP
 - [Athena OS v2 rebuild](athena-os-v2-rebuild.md) — memory was orphaned by repo moves, not lost; skill ambiguity caused inconsistency; all failures were silent
+- [Feedback: autonomous build mode](feedback_autonomous_build_mode.md) — build chunk to chunk without approval pauses; interrupt only when blocked on him
+- [Feedback: digestible docs](feedback_digestible_docs.md) — pair every design/architecture doc with a visual HTML artifact in plain founder language

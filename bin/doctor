@@ -1,0 +1,134 @@
+#!/usr/bin/env bash
+# athena doctor — prove the OS is wired, don't assume it.
+#
+# Every check EXERCISES the thing it checks. Hooks are fired with real payloads
+# and asserted on exit code, both directions: a bad payload must block, a good
+# payload must pass. A hook that blocks everything is as broken as a dead one.
+#
+# Exit 0 = all green. Exit 1 = something is not wired.
+set -uo pipefail
+
+C=~/.claude
+PASS=0; FAIL=0
+ok()   { printf '  \033[32m✓\033[0m %s\n' "$1"; PASS=$((PASS+1)); }
+bad()  { printf '  \033[31m✗\033[0m %s\n' "$1"; FAIL=$((FAIL+1)); }
+head_() { printf '\n\033[1m%s\033[0m\n' "$1"; }
+
+# fire <hook> <expect: block|pass> <file_path> <content> <label>
+fire() {
+  local hook=$1 expect=$2 fp=$3 content=$4 label=$5
+  local payload rc
+  payload=$(jq -nc --arg f "$fp" --arg c "$content" \
+    '{tool_name:"Write",tool_input:{file_path:$f,content:$c,new_string:$c}}')
+  echo "$payload" | "$C/hooks/$hook" >/dev/null 2>&1
+  rc=$?
+  if [ "$expect" = block ]; then
+    [ "$rc" -ne 0 ] && ok "$label" || bad "$label — hook did NOT block (exit $rc)"
+  else
+    [ "$rc" -eq 0 ] && ok "$label" || bad "$label — hook wrongly blocked (exit $rc)"
+  fi
+}
+
+head_ "1. Hook scripts present and executable"
+# bash 3.2 on macOS has no mapfile — stream it
+while read -r h; do
+  [ -z "$h" ] && continue
+  if [ -x "$C/hooks/$h" ]; then ok "$h"; else bad "$h — missing or not executable"; fi
+done < <(python3 -c "
+import json,os,re
+d=json.load(open(os.path.expanduser('~/.claude/settings.json')))
+for ev,arr in d.get('hooks',{}).items():
+    for m in arr:
+        for h in m.get('hooks',[]):
+            mm=re.search(r'/\.claude/hooks/([\w.-]+)',h.get('command',''))
+            if mm: print(mm.group(1))
+" | sort -u)
+
+head_ "2. Hooks actually fire (bad payload must block, good must pass)"
+fire pre-edit-no-float-money.sh block "app/portfolio/nav.py" \
+  'price: float = 1.0' "float money blocked"
+fire pre-edit-no-float-money.sh pass "app/portfolio/nav.py" \
+  "from decimal import Decimal
+price: Decimal = Decimal('1.0')" "Decimal money allowed"
+
+fire pre-edit-no-bare-except.sh block "app/svc.py" \
+  'try:
+    x = 1
+except:
+    pass' "bare except blocked"
+fire pre-edit-no-bare-except.sh pass "app/svc.py" \
+  'try:
+    x = 1
+except ValueError:
+    raise' "typed except allowed"
+
+fire pre-edit-no-hardcoded-creds.sh block "app/cfg.py" \
+  'api_key = "sk-live-abcdef123456"' "hardcoded secret blocked"
+fire pre-edit-no-hardcoded-creds.sh pass "app/cfg.py" \
+  'api_key = os.getenv("API_KEY")' "env-sourced secret allowed"
+
+fire pre-edit-no-pii-logging.sh block "app/portfolio/kyc.py" \
+  'logger.info(f"pan={ABCDE1234F}")' "PAN in log blocked"
+fire pre-edit-no-pii-logging.sh pass "app/portfolio/kyc.py" \
+  'logger.info("pan=redacted")' "redacted log allowed"
+
+head_ "3. aislop gate"
+if command -v aislop >/dev/null 2>&1; then
+  ok "aislop on PATH ($(aislop --version 2>/dev/null | head -1))"
+else
+  bad "aislop NOT on PATH — the PostToolUse gate is dead"
+fi
+
+head_ "4. Weekly routine"
+if launchctl list 2>/dev/null | grep -q com.athena.weekly-routine; then
+  ok "launchd job com.athena.weekly-routine registered"
+else
+  bad "launchd job NOT registered — no weekly report will appear"
+fi
+LATEST=$(ls -1t ~/"All AI"/_reports/*.md 2>/dev/null | head -1)
+if [ -n "$LATEST" ]; then
+  AGE=$(( ( $(date +%s) - $(stat -f %m "$LATEST") ) / 86400 ))
+  if [ "$AGE" -le 8 ]; then ok "latest report $(basename "$LATEST") — ${AGE}d old"
+  else bad "latest report is ${AGE}d old — routine has stopped firing"; fi
+else
+  bad "no report in ~/All AI/_reports — routine has never produced output"
+fi
+
+head_ "5. Memory index integrity"
+MEM=$C/projects/-Users-nimishshah/memory
+if [ -f "$MEM/MEMORY.md" ]; then
+  MISSING=0
+  while read -r f; do
+    [ -f "$MEM/$f" ] || { bad "MEMORY.md points at missing $f"; MISSING=1; }
+  done < <(grep -oE '\]\([^)]+\.md\)' "$MEM/MEMORY.md" | tr -d '])(' )
+  [ "$MISSING" = 0 ] && ok "every MEMORY.md link resolves ($(grep -c '^- \[' "$MEM/MEMORY.md") entries)"
+  ORPHAN=$(comm -23 \
+    <(ls "$MEM"/*.md 2>/dev/null | xargs -n1 basename | grep -v '^MEMORY.md$' | sort) \
+    <(grep -oE '\]\([^)]+\.md\)' "$MEM/MEMORY.md" | tr -d '])(' | sort) | wc -l | tr -d ' ')
+  [ "$ORPHAN" = 0 ] && ok "no unindexed memory files" || bad "$ORPHAN memory file(s) not in MEMORY.md"
+else
+  bad "MEMORY.md missing at $MEM"
+fi
+
+head_ "6. Design language wired"
+[ -f "$C/design/reference/tokens.css" ] && ok "tokens.css present" || bad "tokens.css missing"
+grep -q 'F4F0E5' "$C/design/DESIGN-LANGUAGE.md" 2>/dev/null \
+  && ok "DESIGN-LANGUAGE.md carries the real palette" \
+  || bad "DESIGN-LANGUAGE.md not updated to the Atlas palette"
+if grep -q '1D9E75' "$C"/rules/*.md "$C"/design/*.md 2>/dev/null; then
+  bad "stale teal #1D9E75 still referenced — contradicts the design language"
+else
+  ok "no stale teal references"
+fi
+
+head_ "7. Per-project context"
+for d in ~/"All AI"/*/; do
+  n=$(basename "$d"); [ "$n" = "_reports" ] && continue
+  [ -d "$d/.git" ] || continue
+  miss=""
+  for f in CLAUDE.md STATE.md HANDOFF.md; do [ -f "$d/$f" ] || miss="$miss $f"; done
+  [ -z "$miss" ] && ok "$n — CLAUDE/STATE/HANDOFF" || bad "$n — missing:$miss"
+done
+
+printf '\n\033[1m%d passed, %d failed\033[0m\n' "$PASS" "$FAIL"
+[ "$FAIL" -eq 0 ] || exit 1

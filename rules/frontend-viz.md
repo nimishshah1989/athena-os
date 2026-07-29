@@ -5,7 +5,9 @@ globs: ["*.tsx", "*.jsx", "*.css", "*.html", "src/components/**", "src/pages/**"
 
 ## Design
 - Professional wealth management aesthetic. Not generic Bootstrap
-- White backgrounds, subtle borders, teal accents (#1D9E75)
+- Ivory paper (#F4F0E5) under frosted glass panes. NOT white-on-white, NOT dark mode
+- Accent: deep slate #25394A; secondary ochre #B8860B for marks/rules only
+- Tokens are copied from ~/.claude/design/reference/tokens.css — never retyped or invented
 - Data density: information-rich screens. Financial professionals want detail
 - Mobile responsive but desktop-first (advisors use large screens)
 
@@ -18,7 +20,8 @@ globs: ["*.tsx", "*.jsx", "*.css", "*.html", "src/components/**", "src/pages/**"
 
 ## Financial display
 - Numbers: Indian lakh/crore (₹1,23,45,678). Never million/billion
-- Percentages: always +/- sign. Green positive, red negative
+- Percentages: always +/- sign. Forest #2C6B41 positive, terracotta #AB4425 negative.
+  Muted on purpose — saturated red/green is a retail-app tell. Never colour alone: pair with sign
 - Currency: ₹ prefix. 2 decimal display, 4 decimal calculations
 - Dates: DD-MMM-YYYY (04-Apr-2026). IST timezone
 - Tables: right-align numbers, left-align text. Fixed header on scroll

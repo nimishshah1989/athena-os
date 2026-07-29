@@ -76,7 +76,19 @@
       "Bash(launchctl list *)",
       "Bash(timeout 900 bash ~/.claude/bin/weekly-routine)",
       "Skill(schedule)",
-      "Skill(schedule:*)"
+      "Skill(schedule:*)",
+      "Bash(python3 -)",
+      "Bash(mkdir -p ~/.claude/design/reference)",
+      "Bash(cp __TRACKED_VAR__/atlas-dashboard.html ~/.claude/design/reference/atlas-investor-dashboard.html)",
+      "Bash(cp __TRACKED_VAR__/atlas-styles.css ~/.claude/design/reference/atlas-tokens.css)",
+      "Bash(chmod +x ~/.claude/bin/doctor)",
+      "Bash(~/.claude/bin/doctor)",
+      "Read(//usr/local/bin/**)",
+      "Bash(npm ls *)",
+      "Bash(zsh -lc 'which aislop; aislop --version')",
+      "Bash(npm view *)",
+      "Bash(npm install *)",
+      "Bash(aislop --version)"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",

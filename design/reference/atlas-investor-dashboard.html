@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<title>Atlas · Investor Dashboard</title>
+<style>/* =========================================================================
+   Jhaveri Securities — Atlas Design System
+   Foundations: color, glass, type, spacing
+   v1.1 — numerals in Geist, glass surfaces, larger minimum text sizes
+   ========================================================================= */
+
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("cd9e9ccb-8f28-4cbb-9dec-7d7dfded855b") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("fb6e3304-80a9-4c91-a40b-5a7a1b2b9704") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("701a8be5-990e-43da-8382-cae8cfd2ed80") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("8c9d039c-8513-41e9-9c60-f83711c919eb") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("c6afbf6a-6478-48f2-8ff8-4a77bb645fdc") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("db498897-d83e-4bf8-9b6c-52162239cbab") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("d16c9aeb-c79b-4c0e-81ae-82bf4348ecbd") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* symbols2 */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("22efda3c-3ba2-4f0f-8364-ea01e69d6a9c") format('woff2');
+  unicode-range: U+2000-2001, U+2004-2008, U+200A, U+23B8-23BD, U+2500-259F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("55ef9732-b022-4baf-b202-5bf4f711a26e") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("4f386f91-4780-4475-8207-3e9e19f97683") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("0e8199c8-9106-48cf-a4f8-64a78de974a1") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("db498897-d83e-4bf8-9b6c-52162239cbab") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("d16c9aeb-c79b-4c0e-81ae-82bf4348ecbd") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* symbols2 */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("22efda3c-3ba2-4f0f-8364-ea01e69d6a9c") format('woff2');
+  unicode-range: U+2000-2001, U+2004-2008, U+200A, U+23B8-23BD, U+2500-259F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("55ef9732-b022-4baf-b202-5bf4f711a26e") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("4f386f91-4780-4475-8207-3e9e19f97683") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("0e8199c8-9106-48cf-a4f8-64a78de974a1") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("1d37dc17-db88-4f75-9cb2-151dcf33a816") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("d0e6d305-1cf8-44f6-87d4-aed5a64dbc18") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("add3e740-e41f-40a9-b57a-d59938bbfa7e") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("5fc4bdde-cf82-4ec0-89bb-e60d4e3839f1") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("5c758a41-664a-4007-b23c-23e1903689fc") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("6506b7e0-3caa-4af3-82d5-d8b9c0beac6a") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("a9697eca-26d6-4320-8af9-1437fb35bcd9") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("1d37dc17-db88-4f75-9cb2-151dcf33a816") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("d0e6d305-1cf8-44f6-87d4-aed5a64dbc18") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("add3e740-e41f-40a9-b57a-d59938bbfa7e") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("5fc4bdde-cf82-4ec0-89bb-e60d4e3839f1") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("5c758a41-664a-4007-b23c-23e1903689fc") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("6506b7e0-3caa-4af3-82d5-d8b9c0beac6a") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("a9697eca-26d6-4320-8af9-1437fb35bcd9") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("1d37dc17-db88-4f75-9cb2-151dcf33a816") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("d0e6d305-1cf8-44f6-87d4-aed5a64dbc18") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("add3e740-e41f-40a9-b57a-d59938bbfa7e") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("5fc4bdde-cf82-4ec0-89bb-e60d4e3839f1") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("5c758a41-664a-4007-b23c-23e1903689fc") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("6506b7e0-3caa-4af3-82d5-d8b9c0beac6a") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("a9697eca-26d6-4320-8af9-1437fb35bcd9") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("1d37dc17-db88-4f75-9cb2-151dcf33a816") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("d0e6d305-1cf8-44f6-87d4-aed5a64dbc18") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("add3e740-e41f-40a9-b57a-d59938bbfa7e") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("5fc4bdde-cf82-4ec0-89bb-e60d4e3839f1") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("5c758a41-664a-4007-b23c-23e1903689fc") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("6506b7e0-3caa-4af3-82d5-d8b9c0beac6a") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("a9697eca-26d6-4320-8af9-1437fb35bcd9") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("7f4a69bd-a1cd-446e-89dc-1c060fb9f3c0") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("edca3389-b442-42e2-8fff-77b8958067de") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("9671d7fb-e705-405a-a64c-c7178a167336") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("ec847f57-91ad-461b-9dea-4075bf1c999d") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("1f5a7cf8-4a3c-4b1e-8834-0685e48e9a5a") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("de731c48-5ba3-4449-bfcc-dd35ad2f3d0e") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("7f4a69bd-a1cd-446e-89dc-1c060fb9f3c0") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("edca3389-b442-42e2-8fff-77b8958067de") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("9671d7fb-e705-405a-a64c-c7178a167336") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("ec847f57-91ad-461b-9dea-4075bf1c999d") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("1f5a7cf8-4a3c-4b1e-8834-0685e48e9a5a") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("de731c48-5ba3-4449-bfcc-dd35ad2f3d0e") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("7f4a69bd-a1cd-446e-89dc-1c060fb9f3c0") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("edca3389-b442-42e2-8fff-77b8958067de") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("9671d7fb-e705-405a-a64c-c7178a167336") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("ec847f57-91ad-461b-9dea-4075bf1c999d") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("1f5a7cf8-4a3c-4b1e-8834-0685e48e9a5a") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("de731c48-5ba3-4449-bfcc-dd35ad2f3d0e") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("7f4a69bd-a1cd-446e-89dc-1c060fb9f3c0") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("edca3389-b442-42e2-8fff-77b8958067de") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("9671d7fb-e705-405a-a64c-c7178a167336") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("ec847f57-91ad-461b-9dea-4075bf1c999d") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("1f5a7cf8-4a3c-4b1e-8834-0685e48e9a5a") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("de731c48-5ba3-4449-bfcc-dd35ad2f3d0e") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("7f4a69bd-a1cd-446e-89dc-1c060fb9f3c0") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("edca3389-b442-42e2-8fff-77b8958067de") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("9671d7fb-e705-405a-a64c-c7178a167336") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("ec847f57-91ad-461b-9dea-4075bf1c999d") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("1f5a7cf8-4a3c-4b1e-8834-0685e48e9a5a") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("de731c48-5ba3-4449-bfcc-dd35ad2f3d0e") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+
+:root {
+  /* ---------------------------------------------------------------------
+     1. CANVAS — ivory paper tones + the ambient light that glass refracts
+     --------------------------------------------------------------------- */
+  --paper:        #F4F0E5;   /* primary canvas — warm ivory, sits behind glass */
+  --paper-soft:   #FCFAF5;   /* a half-step lighter, for raised surfaces */
+  --paper-deep:   #EBE5D6;   /* a half-step darker, for sunken/inset wells */
+  --paper-rule:   #E4DDCB;   /* hairline rule on paper */
+  --paper-rule-soft: #EBE5D5;
+  --paper-shadow: rgba(74, 60, 30, 0.06);
+
+  /* Ambient wash — three soft lights behind the glass. Applied by .canvas /
+     body::before. Keep alphas low: glass should tint, never stain. */
+  --wash-1: rgba(62, 92, 118, 0.40);   /* slate blue, top-left */
+  --wash-2: rgba(184, 134, 11, 0.32);  /* ochre, right */
+  --wash-3: rgba(47, 107, 67, 0.26);   /* forest, bottom */
+
+  /* ---------------------------------------------------------------------
+     2. INK — neutrals, warm-leaning, contrast-checked against ivory
+        (ink-3 and ink-4 were darkened in v1.1 for small-text legibility)
+     --------------------------------------------------------------------- */
+  --ink:          #17140F;   /* primary text — near-black, warm      · 15.8:1 */
+  --ink-2:        #3A332A;   /* secondary text                       ·  9.7:1 */
+  --ink-3:        #59503F;   /* tertiary / metadata — AA at 13px     ·  6.4:1 */
+  --ink-4:        #7C7361;   /* hint / placeholder — AA at 15px+     ·  4.6:1 */
+  --ink-5:        #B4A996;   /* disabled / strong divider */
+  --ink-rule:     #D8CEB9;   /* table rule */
+
+  /* ---------------------------------------------------------------------
+     3. SIGNAL — semantic colors for buy/sell/highs/lows/grades
+        Muted & sophisticated — these are what color iconography uses.
+     --------------------------------------------------------------------- */
+  /* Positive — buy / gain / high — forest green */
+  --signal-pos:        #2C6B41;
+  --signal-pos-strong: #1C4A29;
+  --signal-pos-soft:   #DEE9DB;
+  --signal-pos-rule:   #B2CCAA;
+  --signal-pos-glass:  rgba(44, 107, 65, 0.10);
+
+  /* Negative — sell / loss / low — terracotta */
+  --signal-neg:        #AB4425;
+  --signal-neg-strong: #7A2C15;
+  --signal-neg-soft:   #F2DCD1;
+  --signal-neg-rule:   #DDB2A0;
+  --signal-neg-glass:  rgba(171, 68, 37, 0.10);
+
+  /* Caution / hold / watch — deep ochre */
+  --signal-warn:        #9A7008;
+  --signal-warn-strong: #6E5004;
+  --signal-warn-soft:   #F1E6C5;
+  --signal-warn-rule:   #D7C37D;
+  --signal-warn-glass:  rgba(184, 134, 11, 0.12);
+
+  /* Info / informational / neutral signal — slate blue */
+  --signal-info:        #3A5872;
+  --signal-info-strong: #223648;
+  --signal-info-soft:   #DAE1E9;
+  --signal-info-rule:   #A8B9CA;
+  --signal-info-glass:  rgba(58, 88, 114, 0.10);
+
+  /* Grade chips for fund/security ratings */
+  --grade-aaa: var(--signal-pos-strong);
+  --grade-aa:  var(--signal-pos);
+  --grade-a:   #55813F;
+  --grade-bbb: var(--signal-warn);
+  --grade-bb:  var(--signal-warn-strong);
+  --grade-b:   var(--signal-neg);
+  --grade-d:   var(--signal-neg-strong);
+
+  /* Extended data palette — for multi-series charts, sectors, asset classes.
+     Ordered for adjacent-hue separation; all sit on ivory at equal weight. */
+  --data-1: #25394A;   /* slate */
+  --data-2: #2C6B41;   /* forest */
+  --data-3: #B8860B;   /* ochre */
+  --data-4: #AB4425;   /* terracotta */
+  --data-5: #5E7A8C;   /* dusty blue */
+  --data-6: #7E8C4A;   /* olive */
+  --data-7: #8C5B3F;   /* clay */
+  --data-8: #4A6B70;   /* teal-slate */
+  --data-9: #A8892E;   /* brass */
+  --data-10: #6B5E7A;  /* muted plum */
+
+  /* ---------------------------------------------------------------------
+     4. ACCENT — sparing brand accent (logo, key CTAs, dividers)
+     --------------------------------------------------------------------- */
+  --accent:        #25394A;   /* deep slate — primary brand */
+  --accent-2:      #B8860B;   /* ochre — secondary, for marks & rules */
+  --accent-soft:   #DAE1E9;
+  --accent-rule:   #BCC7D2;
+
+  /* ---------------------------------------------------------------------
+     5. GLASS — the surface language. Every panel is a pane of frosted glass
+        laid on ivory: translucent fill, blurred backdrop, lit top edge.
+     --------------------------------------------------------------------- */
+  --glass-fill:        linear-gradient(160deg, rgba(255,255,255,0.74) 0%, rgba(255,255,255,0.48) 52%, rgba(252,250,245,0.40) 100%);
+  --glass-fill-strong: linear-gradient(160deg, rgba(255,255,255,0.90) 0%, rgba(255,255,255,0.70) 100%);
+  --glass-fill-quiet:  linear-gradient(160deg, rgba(255,255,255,0.44) 0%, rgba(255,255,255,0.22) 100%);
+  --glass-fill-dark:   linear-gradient(160deg, rgba(37,57,74,0.86) 0%, rgba(27,42,55,0.78) 100%);
+
+  --glass-border:      rgba(120, 104, 76, 0.16);   /* @kind color */
+  --glass-border-lit:  rgba(255, 255, 255, 0.72);  /* @kind color */
+  --glass-blur:        18px;                        /* @kind other */
+  --glass-blur-heavy:  32px;                        /* @kind other */
+  --glass-sat:         1.4;                         /* @kind other */
+
+  --shadow-glass:      0 1px 1px rgba(74,60,30,0.03), 0 6px 16px -6px rgba(74,60,30,0.10), 0 20px 40px -24px rgba(37,57,74,0.18);
+  --shadow-glass-lift: 0 1px 1px rgba(74,60,30,0.04), 0 10px 24px -8px rgba(74,60,30,0.12), 0 32px 64px -28px rgba(37,57,74,0.24);
+  --inset-glass:       inset 0 1px 0 rgba(255,255,255,0.70), inset 0 0 0 1px rgba(255,255,255,0.22);
+
+  /* ---------------------------------------------------------------------
+     6. TYPE — families
+        Numerals sit in Geist: plain zero (no dot, no slash), tabular,
+        modern-software rather than typewriter.
+     --------------------------------------------------------------------- */
+  --font-serif:  'Source Serif 4', 'Iowan Old Style', 'Charter', Georgia, serif;
+  --font-sans:   'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-num:    'Geist', 'Inter', -apple-system, 'Segoe UI', Helvetica, sans-serif;
+  --font-mono:   'Geist Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+  /* TYPE — scale. v1.1 raised the floor: nothing under 12px, UI metadata 13px. */
+  --t-display-xl: 72px;
+  --t-display-l:  56px;
+  --t-display-m:  44px;
+  --t-display-s:  34px;
+  --t-h1:         27px;
+  --t-h2:         21px;
+  --t-h3:         18px;
+  --t-body-l:     17px;
+  --t-body:       15px;
+  --t-body-s:     14px;   /* was 13 */
+  --t-caption:    13px;   /* was 12 — the smallest size for sentences */
+  --t-micro:      12px;   /* was 11 — labels & eyebrows only, never sentences */
+
+  /* TYPE — line heights */
+  --lh-display:  1.05;   /* @kind other */
+  --lh-tight:    1.2;    /* @kind other */
+  --lh-snug:     1.34;   /* @kind other */
+  --lh-body:     1.55;   /* @kind other */
+  --lh-loose:    1.65;   /* @kind other */
+
+  /* TYPE — tracking */
+  --tr-tight:    -0.02em;   /* @kind other */
+  --tr-snug:     -0.011em;  /* @kind other */
+  --tr-flat:     0;         /* @kind other */
+  --tr-wide:     0.03em;    /* @kind other */
+  --tr-mark:     0.10em;    /* @kind other */
+
+  /* ---------------------------------------------------------------------
+     7. SPACING — 4px base
+     --------------------------------------------------------------------- */
+  --s-1:  4px;
+  --s-2:  8px;
+  --s-3:  12px;
+  --s-4:  16px;
+  --s-5:  20px;
+  --s-6:  24px;
+  --s-7:  32px;
+  --s-8:  40px;
+  --s-9:  56px;
+  --s-10: 72px;
+  --s-11: 96px;
+  --s-12: 128px;
+
+  /* ---------------------------------------------------------------------
+     8. RADII — glass has softer corners than paper did
+     --------------------------------------------------------------------- */
+  --r-0:      0;      /* @kind radius */
+  --r-1:      3px;    /* cells, swatches, pips */
+  --r-2:      6px;    /* inputs, small chips */
+  --r-well:   10px;   /* inset wells, nested blocks */
+  --r-btn:    9px;    /* buttons */
+  --r-card:   14px;   /* cards, panels — the default pane */
+  --r-panel:  18px;   /* large panes, sheets, modals */
+  --r-3:      var(--r-btn);    /* legacy alias */
+  --r-4:      var(--r-panel);  /* legacy alias */
+  --r-pill:   999px;
+
+  /* ---------------------------------------------------------------------
+     9. SHADOWS — minimal, warm-toned (paper) + glass lifts above
+     --------------------------------------------------------------------- */
+  --shadow-1: 0 1px 0 rgba(74, 60, 30, 0.05), 0 1px 2px rgba(74, 60, 30, 0.04);
+  --shadow-2: 0 1px 0 rgba(74, 60, 30, 0.05), 0 4px 12px rgba(74, 60, 30, 0.06);
+  --shadow-3: 0 1px 0 rgba(74, 60, 30, 0.07), 0 12px 32px rgba(74, 60, 30, 0.10);
+  --shadow-pop: 0 1px 0 rgba(74, 60, 30, 0.09), 0 24px 48px rgba(74, 60, 30, 0.16);
+  --shadow-inset: inset 0 1px 0 rgba(74, 60, 30, 0.04);
+
+  /* ---------------------------------------------------------------------
+     10. BORDERS
+     --------------------------------------------------------------------- */
+  --border-hair:  1px solid var(--paper-rule);
+  --border-rule:  1px solid var(--ink-rule);
+  --border-strong: 1px solid var(--ink-3);
+  --border-glass: 1px solid var(--glass-border);
+
+  /* ---------------------------------------------------------------------
+     11. MOTION
+     --------------------------------------------------------------------- */
+  --ease-standard: cubic-bezier(0.2, 0.0, 0.0, 1.0);   /* @kind other */
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);      /* @kind other */
+  --dur-fast:      120ms;   /* @kind other */
+  --dur-base:      200ms;   /* @kind other */
+  --dur-slow:      360ms;   /* @kind other */
+}
+
+/* =========================================================================
+   Semantic element styles
+   ========================================================================= */
+
+html, body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'ss01', 'cv11';
+  text-rendering: optimizeLegibility;
+}
+
+/* Ambient light behind the glass. Any full-screen surface gets it; add
+   class="canvas" to a wrapper, or it lands on body by default. */
+body::before, .canvas::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(1100px 800px at 6% -10%, var(--wash-1), transparent 64%),
+    radial-gradient(980px 760px at 100% 26%, var(--wash-2), transparent 62%),
+    radial-gradient(1200px 900px at 48% 112%, var(--wash-3), transparent 66%);
+}
+body > * { position: relative; z-index: 1; }
+
+/* Display & headings — serif for editorial weight */
+.display-xl, .display-l, .display-m, .display-s,
+h1, h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: var(--tr-snug);
+  color: var(--ink);
+}
+
+.display-xl { font-size: var(--t-display-xl); line-height: var(--lh-display); letter-spacing: var(--tr-tight); }
+.display-l  { font-size: var(--t-display-l);  line-height: var(--lh-display); letter-spacing: var(--tr-tight); }
+.display-m  { font-size: var(--t-display-m);  line-height: var(--lh-tight);   letter-spacing: var(--tr-snug); }
+.display-s  { font-size: var(--t-display-s);  line-height: var(--lh-tight);   letter-spacing: var(--tr-snug); }
+
+h1   { font-size: var(--t-h1); line-height: var(--lh-tight); }
+h2   { font-size: var(--t-h2); line-height: var(--lh-snug); }
+
+h3, .h3 {
+  font-family: var(--font-sans);
+  font-size: var(--t-h3);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-snug);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+p, .body { font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink-2); }
+.body-l  { font-size: var(--t-body-l); line-height: var(--lh-loose); color: var(--ink-2); }
+.body-s  { font-size: var(--t-body-s); line-height: var(--lh-body); color: var(--ink-2); }
+.caption { font-size: var(--t-caption); line-height: var(--lh-body); color: var(--ink-3); }
+
+/* Eyebrow / label — uppercase, tracked. 12px floor, weight 600. */
+.eyebrow, .label-mark {
+  font-family: var(--font-sans);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: var(--tr-mark);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* -------------------------------------------------------------------------
+   Numerals — Geist, tabular. Plain zero, lining figures, no typewriter feel.
+   ------------------------------------------------------------------------- */
+.num, .num-xl, .num-l, .num-m, .num-s {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: 'tnum' 1, 'lnum' 1, 'calt' 0;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+
+.num     { font-size: var(--t-body); font-weight: 500; }
+.num-xl  { font-size: 34px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
+.num-l   { font-size: 23px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.15; }
+.num-m   { font-size: 17px; font-weight: 500; }
+.num-s   { font-size: var(--t-body-s); font-weight: 500; color: var(--ink-2); }
+
+/* Codes, ISINs, folio & order numbers, snippets — mono */
+.mono, code, kbd, samp, pre {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1, 'liga' 0, 'calt' 0;
+  letter-spacing: 0;
+}
+
+/* Signal helpers */
+.signal-pos  { color: var(--signal-pos); }
+.signal-neg  { color: var(--signal-neg); }
+.signal-warn { color: var(--signal-warn-strong); }
+.signal-info { color: var(--signal-info); }
+
+/* -------------------------------------------------------------------------
+   Glass surfaces — composable utilities
+   ------------------------------------------------------------------------- */
+.glass, .glass-strong, .glass-quiet, .glass-dark {
+  border-radius: var(--r-card);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass), var(--inset-glass);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+}
+.glass        { background: var(--glass-fill); }
+.glass-strong { background: var(--glass-fill-strong); }
+.glass-quiet  { background: var(--glass-fill-quiet); box-shadow: var(--inset-glass); }
+.glass-dark   {
+  background: var(--glass-fill-dark);
+  color: var(--paper);
+  border-color: rgba(255,255,255,0.14);
+  box-shadow: var(--shadow-glass-lift), inset 0 1px 0 rgba(255,255,255,0.16);
+}
+
+/* Sticky top bars & rails — heavier blur, no bottom corners */
+.glass-bar {
+  background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.66));
+  -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur-heavy)) saturate(var(--glass-sat));
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.5), 0 8px 24px -18px rgba(37,57,74,0.35);
+}
+
+/* Inset well — a recess cut into a pane (tables, code, chart backgrounds) */
+.glass-well {
+  background: linear-gradient(160deg, rgba(239,234,221,0.55), rgba(255,255,255,0.30));
+  border: 1px solid rgba(120,104,76,0.10);
+  border-radius: var(--r-well);
+  box-shadow: inset 0 1px 2px rgba(74,60,30,0.05);
+}
+
+/* Chip — pill of tinted glass; pair with a signal color for text */
+.glass-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-family: var(--font-sans);
+  font-size: var(--t-caption);
+  font-weight: 600;
+  border-radius: var(--r-pill);
+  background: rgba(255,255,255,0.62);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(10px) saturate(1.3);
+  backdrop-filter: blur(10px) saturate(1.3);
+}
+
+.lift { transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out); }
+.lift:hover { transform: translateY(-1px); box-shadow: var(--shadow-glass-lift), var(--inset-glass); }
+
+/* Hairline rule */
+hr, .rule {
+  border: 0;
+  border-top: var(--border-hair);
+  margin: var(--s-6) 0;
+}
+
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-rule); }
+a:hover { color: var(--signal-info-strong); border-bottom-color: var(--accent); }
+
+::selection { background: var(--accent-soft); color: var(--accent); }
+
+/* Print — glass falls back to paper; no washes, no blur, no shadows */
+@media print {
+  body::before, .canvas::before { display: none; }
+  .glass, .glass-strong, .glass-quiet, .glass-bar, .glass-well, .glass-chip {
+    background: #fff;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+    border-color: var(--paper-rule);
+  }
+}
+</style>
+<script src="fe03219a-70bf-4554-8954-070f161704c2" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="156b143d-c2bb-47a7-ab00-b500f4058ce0" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="9c408ad8-c38f-4d22-b926-cbbc444efcca" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="2dda91fd-a7b6-4348-bbd1-faba9cbdff27"></script>
+<style>
+  body { margin: 0; }
+  #root { min-height: 100vh; }
+</style>
+
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="4a6681f0-1642-4d88-93a7-4bbf539bf070"></script>
+<script type="text/babel" src="e867c7ed-6b4a-4ede-8621-fc80b4cf56db"></script>
+<script type="text/babel" src="2ac2670b-93f0-4bf6-8ed3-ae41321a01c4"></script>
+<script type="text/babel" src="c8c64ebd-fc1f-4948-814b-7732767bc477"></script>
+<script type="text/babel" src="d6ccc12f-c3fd-4c91-9103-5a9031b84d6f"></script>
+<script type="text/babel" src="98b9caee-659d-473d-b5d5-ed6b0e4831cf"></script>
+<script type="text/babel" src="983c7f10-2851-46bb-9cf4-39ad2c17bb6f"></script>
+<script type="text/babel">
+const App = () => {
+  const [range, setRange] = React.useState("1Y");
+  return (
+    <div style={{ background: "transparent", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <TopNav active="Portfolio" />
+      <KpiStrip />
+      <main style={{ padding: "28px 32px", display: "grid", gridTemplateColumns: "minmax(0, 1fr) 320px", gap: 24, flex: 1 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+          <div style={{ marginBottom: 4 }}>
+            <Eyebrow color="var(--accent-2)">Portfolio · 26 April 2026</Eyebrow>
+            <h1 style={{ fontFamily: "var(--font-serif)", fontSize: 36, fontWeight: 400, letterSpacing: "-0.011em", color: "var(--ink)", margin: "8px 0 0" }}>Hi Aarav,</h1>
+            <p style={{ fontFamily: "var(--font-sans)", fontSize: 15, color: "var(--ink-2)", margin: "8px 0 0", maxWidth: 540, lineHeight: 1.55 }}>Your portfolio is up <span style={{ color: "var(--signal-pos)", fontWeight: 500 }}>3.49% this quarter</span>, ahead of Nifty 50 by 2.80%. Three positions drove most of the gain.</p>
+          </div>
+          <PerformanceChart range={range} onRange={setRange} />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+            <AllocationPanel />
+            <Card padded={false}>
+              <div style={{ padding: "20px 24px", borderBottom: "1px solid var(--glass-border)" }}>
+                <Eyebrow>Risk · current</Eyebrow>
+              </div>
+              <div style={{ padding: "20px 24px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                  <span style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--ink-3)" }}>Volatility · annualised</span>
+                  <Num size={13}>14.20%</Num>
+                </div>
+                <div style={{ height: 4, background: "var(--paper-deep)", borderRadius: 3, overflow: "hidden" }}>
+                  <div style={{ width: "47%", height: "100%", background: "var(--signal-warn)" }} />
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", margin: "16px 0 6px" }}>
+                  <span style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--ink-3)" }}>Max drawdown · 3Y</span>
+                  <Num size={13} color="var(--signal-neg)">−18.40%</Num>
+                </div>
+                <div style={{ height: 4, background: "var(--paper-deep)", borderRadius: 3, overflow: "hidden" }}>
+                  <div style={{ width: "62%", height: "100%", background: "var(--signal-neg)" }} />
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", margin: "16px 0 6px" }}>
+                  <span style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--ink-3)" }}>Sharpe ratio</span>
+                  <Num size={13}>1.42</Num>
+                </div>
+                <div style={{ height: 4, background: "var(--paper-deep)", borderRadius: 3, overflow: "hidden" }}>
+                  <div style={{ width: "71%", height: "100%", background: "var(--signal-pos)" }} />
+                </div>
+                <div style={{ marginTop: 16, padding: "10px 12px", background: "var(--signal-info-soft)", border: "1px solid var(--signal-info-rule)", borderRadius: 8 }}>
+                  <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+                    <Icon name="shield-check" size={14} color="var(--signal-info)" />
+                    <span style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--signal-info-strong)", lineHeight: 1.5 }}>Within your target risk band of <strong>moderate-aggressive</strong>.</span>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+          <HoldingsTable />
+        </div>
+        <aside style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <AdvisorCard />
+          <AlertsCard />
+          <OrdersCard />
+        </aside>
+      </main>
+    </div>
+  );
+};
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+
+</body></html>
