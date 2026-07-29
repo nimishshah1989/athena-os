@@ -114,7 +114,9 @@
       "Bash(lsof -nP -iTCP:24283 -sTCP:LISTEN)",
       "Bash(~/.claude/hooks/pre-read-size-guard.sh)",
       "Bash(echo \" exit=$? \\(expect 0 = allowed\\)\")",
-      "Bash(~/.claude/hooks/pre-compact-preserve.sh)"
+      "Bash(~/.claude/hooks/pre-compact-preserve.sh)",
+      "Bash(awk '{print \"  pid\",$2,\"cpu\",$3\"%\",\"mem\",$4\"%\",substr\\($0,index\\($0,$11\\),90\\)}')",
+      "Bash(awk '{printf \"%.1f\\\\n\",$5/1024}')"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",
