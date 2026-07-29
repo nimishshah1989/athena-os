@@ -181,6 +181,15 @@ for d in ~/"All AI"/*/; do
   miss=""
   for f in CLAUDE.md STATE.md HANDOFF.md; do [ -f "$d/$f" ] || miss="$miss $f"; done
   [ -z "$miss" ] && ok "$n — CLAUDE/STATE/HANDOFF" || bad "$n — missing:$miss"
+  # A stale mirror reports on a snapshot, not the project. atlas-os was 316
+  # commits behind on 2026-07-29 and the scorecard measured the 8-week-old tree.
+  UP=$(git -C "$d" rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null || true)
+  if [ -n "$UP" ]; then
+    BEHIND=$(git -C "$d" rev-list --count HEAD.."$UP" 2>/dev/null || echo 0)
+    if [ "${BEHIND:-0}" -gt 20 ]; then
+      bad "$n — $BEHIND commits behind $UP; any measurement of it is of a stale snapshot"
+    fi
+  fi
 done
 
 printf '\n\033[1m%d passed, %d failed\033[0m\n' "$PASS" "$FAIL"
