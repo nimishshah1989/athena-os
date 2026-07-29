@@ -50,7 +50,16 @@
       "Bash(python3 -c \"import json; json.load\\(open\\('settings.json'\\)\\); print\\('  valid'\\)\")",
       "Bash(python3)",
       "Bash(timeout 240 npx --yes aislop@latest check)",
-      "Bash(echo \"exit: $?\")"
+      "Bash(echo \"exit: $?\")",
+      "WebFetch(domain:claude.ai)",
+      "Bash(timeout 180 npx --yes aislop@latest --help)",
+      "Bash(timeout 400 npx --yes aislop@latest scan)",
+      "Bash(timeout 300 npx --yes aislop@latest scan)",
+      "Bash(timeout 120 npx --yes aislop@latest commands)",
+      "Bash(timeout 120 npx --yes aislop@latest hook install --help)",
+      "Bash(timeout 180 npx --yes aislop@latest hook install --claude --global --quality-gate --dry-run)",
+      "Bash(timeout 240 npx --yes aislop@latest hook install --claude --global --quality-gate --yes)",
+      "Bash(timeout 200 npx --yes aislop@latest scan --include '_gate_probe.py')"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",
@@ -159,6 +168,15 @@
             "command": "bash $HOME/.claude/hooks/post-supabase-sql-consume.sh"
           }
         ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "aislop hook claude"
+          }
+        ]
       }
     ],
     "TaskCompleted": [
@@ -167,6 +185,28 @@
           {
             "type": "command",
             "command": "$HOME/.claude/hooks/post-task-cost-snapshot.sh"
+          }
+        ]
+      }
+    ],
+    "FileChanged": [
+      {
+        "matcher": ".aislop/config.yml|.aislop/rules.yml|package.json",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "aislop hook claude --on-file-changed"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "aislop hook claude --stop"
           }
         ]
       }

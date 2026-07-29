@@ -47,3 +47,5 @@ Static analysis every commit (free); LLM review weekly, changed code only.
 ## Pointers
 Design → `~/.claude/design/DESIGN-LANGUAGE.md` · Domain rules → `~/.claude/rules/` (auto-loaded)
 Research → project `research/`, never left in chat. Never put dates/ids here (busts prompt cache).
+
+@AISLOP.md
