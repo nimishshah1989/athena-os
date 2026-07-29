@@ -44,7 +44,10 @@
       "Bash(gh pr *)",
       "Bash(git -C ~/.claude/wiki log --oneline)",
       "Bash(rm -f ~/.claude/wiki/drafts/2026-07-28-*.md)",
-      "Bash(git -C ~/.claude/wiki status --short)"
+      "Bash(git -C ~/.claude/wiki status --short)",
+      "Bash(git fsck *)",
+      "Bash(echo \"fsck exit: $?\")",
+      "Bash(python3 -c \"import json; json.load\\(open\\('settings.json'\\)\\); print\\('  valid'\\)\")"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",
@@ -108,42 +111,12 @@
         ]
       }
     ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash /Users/nimishshah/.claude/hooks/session-harvest.sh"
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash /Users/nimishshah/.claude/hooks/skill-activator.sh"
-          }
-        ]
-      }
-    ],
     "SessionStart": [
       {
         "hooks": [
           {
             "type": "command",
             "command": "$HOME/.claude/hooks/session-start-scan-encoder.sh"
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/session-start-skill-loader.sh"
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/session-start-repo-map.sh"
           }
         ]
       }
@@ -152,10 +125,6 @@
       {
         "matcher": "Edit|Write",
         "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/post-edit-decision-log.sh"
-          },
           {
             "type": "command",
             "command": "$HOME/.claude/hooks/post-edit-pyright.sh"
