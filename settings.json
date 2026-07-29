@@ -61,7 +61,13 @@
       "Bash(timeout 240 npx --yes aislop@latest hook install --claude --global --quality-gate --yes)",
       "Bash(timeout 200 npx --yes aislop@latest scan --include '_gate_probe.py')",
       "Bash(crontab -l)",
-      "Bash(mv -- \"-Users-nimishshah-Lemon/memory\" ~/.claude/memory-archive/Lemon-superseded)"
+      "Bash(mv -- \"-Users-nimishshah-Lemon/memory\" ~/.claude/memory-archive/Lemon-superseded)",
+      "Bash(~/.npm-global/bin/claude --version)",
+      "Bash(timeout 60 npx --yes aislop@latest scan)",
+      "Bash(timeout 300 npx --yes aislop@latest scan --json)",
+      "Bash(chmod +x ~/.claude/bin/scorecard)",
+      "Bash(timeout 500 python3 ~/.claude/bin/scorecard careerplus)",
+      "Bash(timeout 900 python3 ~/.claude/bin/scorecard)"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",

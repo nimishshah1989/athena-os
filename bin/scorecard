@@ -1,0 +1,144 @@
+#!/usr/bin/env python3
+"""Plain-English health scorecard for every repo under ~/All AI.
+
+Zero LLM calls — static analysis and git metadata only, so it is cheap enough to
+run often. Deliberately reports what it could NOT measure rather than staying
+silent about it: silent checks are what let six months pass without anyone
+noticing the learning loop was dead.
+
+    scorecard            # all repos
+    scorecard beyond     # one repo
+"""
+import json
+import os
+import subprocess
+import sys
+import time
+
+ROOT = os.path.expanduser("~/All AI")
+JUNK = (".remember", ".ruflo", ".mypy_cache", ".pytest_cache", "decisions.jsonl", ".DS_Store")
+
+
+def sh(cmd, cwd=None, timeout=120):
+    try:
+        r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True,
+                           timeout=timeout, shell=isinstance(cmd, str))
+        return r.stdout.strip()
+    except Exception:
+        return ""
+
+
+def aislop_score(path):
+    out = sh(["npx", "--yes", "aislop@latest", "scan", "--json"], cwd=path, timeout=300)
+    if not out:
+        return None, None
+    try:
+        start = out.index("{")
+        d = json.loads(out[start:])
+    except Exception:
+        return None, None
+
+    def find(o, key):
+        if isinstance(o, dict):
+            if key in o and isinstance(o[key], (int, float)):
+                return o[key]
+            for v in o.values():
+                r = find(v, key)
+                if r is not None:
+                    return r
+        elif isinstance(o, list):
+            for v in o:
+                r = find(v, key)
+                if r is not None:
+                    return r
+        return None
+
+    return find(d, "score"), find(d, "errors")
+
+
+def days_old(path):
+    if not os.path.exists(path):
+        return None
+    return int((time.time() - os.path.getmtime(path)) / 86400)
+
+
+def report(name, path):
+    print(f"\n{'='*58}\n{name}\n{'='*58}")
+
+    score, errors = aislop_score(path)
+    if score is None:
+        print("  Code quality      could not measure (no supported source files?)")
+    else:
+        verdict = "good" if score >= 80 else "needs work" if score >= 50 else "poor"
+        print(f"  Code quality      {score}/100 ({verdict})"
+              + (f" · {errors} error(s)" if errors else ""))
+
+    # memory freshness — the thing that silently died before
+    for f in ("STATE.md", "HANDOFF.md"):
+        age = days_old(os.path.join(path, f))
+        if age is None:
+            print(f"  {f:<17} MISSING")
+        else:
+            flag = "" if age <= 14 else "  <-- stale"
+            print(f"  {f:<17} updated {age}d ago{flag}")
+
+    # uncommitted work
+    dirty = len([l for l in sh(["git", "status", "--porcelain"], cwd=path).splitlines() if l])
+    print(f"  Uncommitted       {dirty} file(s)")
+
+    # long-lived branches (the 8-day rule)
+    stale_branches = []
+    for b in sh(["git", "for-each-ref", "--format=%(refname:short)|%(committerdate:unix)",
+                 "refs/heads"], cwd=path).splitlines():
+        if "|" not in b:
+            continue
+        nm, ts = b.rsplit("|", 1)
+        try:
+            age = int((time.time() - int(ts)) / 86400)
+        except ValueError:
+            continue
+        if age > 8:
+            stale_branches.append(f"{nm} ({age}d)")
+    print(f"  Branches >8d      {len(stale_branches)}"
+          + (f" — {', '.join(stale_branches[:3])}" if stale_branches else ""))
+
+    # junk that should never be committed
+    found = [j for j in JUNK if os.path.exists(os.path.join(path, j))]
+    print(f"  Junk paths        {', '.join(found) if found else 'none'}")
+
+    # evals — required for any model-generated output
+    has_evals = os.path.isdir(os.path.join(path, "evals"))
+    uses_llm = bool(sh(f"grep -rl --include=*.py --include=*.ts "
+                       f"-e anthropic -e openai . 2>/dev/null | grep -v node_modules | "
+                       f"grep -v '\\.venv' | head -1", cwd=path))
+    if uses_llm and not has_evals:
+        print("  Evals             MISSING — repo calls an LLM but has no evals/")
+    elif has_evals:
+        print("  Evals             present")
+    else:
+        print("  Evals             n/a (no LLM calls)")
+
+    print("\n  Not measured here: test coverage, type errors, RLS policies.")
+    print("  Those need the test suite / DB and run in CI, not in this sweep.")
+
+
+def main():
+    if not os.path.isdir(ROOT):
+        print(f"no {ROOT}")
+        return 1
+    want = sys.argv[1] if len(sys.argv) > 1 else None
+    repos = sorted(d for d in os.listdir(ROOT)
+                   if os.path.isdir(os.path.join(ROOT, d, ".git"))
+                   and (want is None or d == want))
+    if not repos:
+        print("no repos found" + (f" matching '{want}'" if want else ""))
+        return 1
+    for r in repos:
+        report(r, os.path.join(ROOT, r))
+    print(f"\n{'='*58}\nTarget: 80/100 on code quality. Ratchet: today's debt is frozen,")
+    print("only regressions block. Fix debt when you're already in the file.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
