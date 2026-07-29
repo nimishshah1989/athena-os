@@ -1,13 +1,13 @@
 ---
 name: project-careerplus
-description: "CareerPlus job-search SaaS at ~/careerplus — complete-product MVP per D-020; repo docs are canonical, read STATE.md + HANDOFF.md first"
+description: "CareerPlus job-search SaaS at ~/All AI/careerplus — complete-product MVP per D-020; repo docs are canonical, read STATE.md + HANDOFF.md first"
 metadata: 
   node_type: memory
   type: project
   originSessionId: f0562b81-0489-41ad-ac9d-894096659a9b
 ---
 
-CareerPlus (`~/careerplus`): AI job-search platform productizing the MadsLorentzen/ai-job-search workflow. FastAPI + Next.js + Supabase (local stack) + procrastinate + Claude API + Typst.
+CareerPlus (`~/All AI/careerplus`): AI job-search platform productizing the MadsLorentzen/ai-job-search workflow. FastAPI + Next.js + Supabase (local stack) + procrastinate + Claude API + Typst.
 
 **Canonical state lives in the repo** — always read `STATE.md` then `HANDOFF.md` at session start; decisions D-001–D-020 in `DECISIONS.md` are settled law (notably: D-002 no headless auto-submit ever; D-019 apply ladder; D-020 MVP = complete product, no beta gate; commercial module feedback-gated).
 
