@@ -1,0 +1,485 @@
+<title>Athena OS — the operating standard, and proof it runs</title>
+<style>
+/* Palette, type and spacing come from the Atlas token file this OS now owns:
+   ~/.claude/design/reference/tokens.css. Nothing here is invented.
+   The serif/sans stacks are the token file's own fallback chains — no webfont
+   is linked, so there is no silent-fallback risk under the artifact CSP. */
+:root{
+  --paper:#F4F0E5; --paper-soft:#FCFAF5; --paper-deep:#EBE5D6;
+  --rule:#E4DDCB; --rule-soft:#EBE5D5;
+  --ink:#17140F; --ink-2:#3A332A; --ink-3:#59503F; --ink-4:#7C7361;
+  --accent:#25394A; --accent-2:#B8860B; --accent-soft:#DAE1E9;
+  --pos:#2C6B41; --pos-soft:#DEE9DB; --pos-rule:#B2CCAA;
+  --neg:#AB4425; --neg-soft:#F2DCD1; --neg-rule:#DDB2A0;
+  --warn:#9A7008; --warn-soft:#F1E6C5; --warn-rule:#D7C37D;
+  --info:#3A5872; --info-soft:#DAE1E9;
+  --card:linear-gradient(160deg,rgba(255,255,255,.74)0%,rgba(255,255,255,.48)52%,rgba(252,250,245,.40)100%);
+  --card-border:rgba(120,104,76,.16);
+  --card-lit:rgba(255,255,255,.72);
+  --shadow:0 1px 1px rgba(74,60,30,.03),0 6px 16px -6px rgba(74,60,30,.10),0 20px 40px -24px rgba(37,57,74,.18);
+  --wash-1:rgba(62,92,118,.40); --wash-2:rgba(184,134,11,.32); --wash-3:rgba(47,107,67,.26);
+
+  --serif:'Source Serif 4','Iowan Old Style','Charter',Georgia,serif;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --num:'Geist','Inter',-apple-system,'Segoe UI',Helvetica,sans-serif;
+  --mono:'Geist Mono','SF Mono',Menlo,Consolas,monospace;
+
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:20px;--s6:24px;--s7:32px;--s8:40px;--s9:56px;--s10:72px;
+  --r-well:10px;--r-card:14px;--r-panel:18px;--r-pill:999px;
+}
+/* Dark is derived from the system's own --glass-fill-dark (deep slate), not an
+   inversion of the ivory. The ochre and forest signals are lifted for contrast. */
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#141F29; --paper-soft:#1B2A37; --paper-deep:#101820;
+    --rule:#2C3F4F; --rule-soft:#25353F;
+    --ink:#F2EDE1; --ink-2:#D6CFC0; --ink-3:#A99F8C; --ink-4:#87806F;
+    --accent:#9DB6CC; --accent-2:#D9A72B; --accent-soft:#22364A;
+    --pos:#7FB88C; --pos-soft:#1B3326; --pos-rule:#356647;
+    --neg:#E0866A; --neg-soft:#3A1F16; --neg-rule:#7A3D28;
+    --warn:#D9B24C; --warn-soft:#332813; --warn-rule:#6E5A22;
+    --info:#8FAAC4; --info-soft:#1E2F3D;
+    --card:linear-gradient(160deg,rgba(255,255,255,.06)0%,rgba(255,255,255,.03)52%,rgba(255,255,255,.02)100%);
+    --card-border:rgba(190,210,230,.14);
+    --card-lit:rgba(255,255,255,.10);
+    --shadow:0 1px 1px rgba(0,0,0,.20),0 6px 16px -6px rgba(0,0,0,.40),0 20px 40px -24px rgba(0,0,0,.55);
+    --wash-1:rgba(62,92,118,.55); --wash-2:rgba(184,134,11,.20); --wash-3:rgba(47,107,67,.22);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141F29; --paper-soft:#1B2A37; --paper-deep:#101820;
+  --rule:#2C3F4F; --rule-soft:#25353F;
+  --ink:#F2EDE1; --ink-2:#D6CFC0; --ink-3:#A99F8C; --ink-4:#87806F;
+  --accent:#9DB6CC; --accent-2:#D9A72B; --accent-soft:#22364A;
+  --pos:#7FB88C; --pos-soft:#1B3326; --pos-rule:#356647;
+  --neg:#E0866A; --neg-soft:#3A1F16; --neg-rule:#7A3D28;
+  --warn:#D9B24C; --warn-soft:#332813; --warn-rule:#6E5A22;
+  --info:#8FAAC4; --info-soft:#1E2F3D;
+  --card:linear-gradient(160deg,rgba(255,255,255,.06)0%,rgba(255,255,255,.03)52%,rgba(255,255,255,.02)100%);
+  --card-border:rgba(190,210,230,.14);
+  --card-lit:rgba(255,255,255,.10);
+  --shadow:0 1px 1px rgba(0,0,0,.20),0 6px 16px -6px rgba(0,0,0,.40),0 20px 40px -24px rgba(0,0,0,.55);
+  --wash-1:rgba(62,92,118,.55); --wash-2:rgba(184,134,11,.20); --wash-3:rgba(47,107,67,.22);
+}
+:root[data-theme="light"]{
+  --paper:#F4F0E5; --paper-soft:#FCFAF5; --paper-deep:#EBE5D6;
+  --rule:#E4DDCB; --rule-soft:#EBE5D5;
+  --ink:#17140F; --ink-2:#3A332A; --ink-3:#59503F; --ink-4:#7C7361;
+  --accent:#25394A; --accent-2:#B8860B; --accent-soft:#DAE1E9;
+  --pos:#2C6B41; --pos-soft:#DEE9DB; --pos-rule:#B2CCAA;
+  --neg:#AB4425; --neg-soft:#F2DCD1; --neg-rule:#DDB2A0;
+  --warn:#9A7008; --warn-soft:#F1E6C5; --warn-rule:#D7C37D;
+  --info:#3A5872; --info-soft:#DAE1E9;
+  --card:linear-gradient(160deg,rgba(255,255,255,.74)0%,rgba(255,255,255,.48)52%,rgba(252,250,245,.40)100%);
+  --card-border:rgba(120,104,76,.16);
+  --card-lit:rgba(255,255,255,.72);
+  --shadow:0 1px 1px rgba(74,60,30,.03),0 6px 16px -6px rgba(74,60,30,.10),0 20px 40px -24px rgba(37,57,74,.18);
+  --wash-1:rgba(62,92,118,.40); --wash-2:rgba(184,134,11,.32); --wash-3:rgba(47,107,67,.26);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:15px; line-height:1.55;
+  -webkit-font-smoothing:antialiased; position:relative; min-height:100vh;
+}
+/* the ambient wash the token file describes: three soft lights behind the glass */
+body::before{
+  content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(60vw 50vh at 8% -5%, var(--wash-1), transparent 70%),
+    radial-gradient(50vw 45vh at 105% 25%, var(--wash-2), transparent 70%),
+    radial-gradient(55vw 40vh at 40% 108%, var(--wash-3), transparent 70%);
+  opacity:.30; filter:blur(20px);
+}
+.wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:var(--s8) var(--s6) var(--s10)}
+
+/* ---- masthead ---- */
+.mast{display:flex; flex-direction:column; gap:var(--s4); margin-bottom:var(--s9)}
+.eyebrow{
+  font-size:12px; letter-spacing:.10em; text-transform:uppercase;
+  color:var(--accent-2); font-weight:600;
+}
+h1{
+  font-family:var(--serif); font-weight:600; font-size:clamp(34px,5.2vw,56px);
+  line-height:1.05; letter-spacing:-.02em; margin:0; text-wrap:balance; max-width:16ch;
+}
+.dek{font-size:17px; line-height:1.55; color:var(--ink-2); max-width:62ch; margin:0}
+.mast-meta{
+  display:flex; flex-wrap:wrap; gap:var(--s2) var(--s5); padding-top:var(--s4);
+  border-top:1px solid var(--rule); font-size:13px; color:var(--ink-3);
+}
+.mast-meta b{font-family:var(--num); font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
+
+/* ---- verdict strip ---- */
+.verdict{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(158px,1fr)); gap:1px;
+  background:var(--rule); border:1px solid var(--card-border); border-radius:var(--r-card);
+  overflow:hidden; margin-bottom:var(--s9); box-shadow:var(--shadow);
+}
+.vc{background:var(--paper-soft); padding:var(--s5) var(--s5) var(--s4)}
+.vc .n{
+  font-family:var(--num); font-variant-numeric:tabular-nums;
+  font-size:30px; line-height:1.1; font-weight:600; letter-spacing:-.02em;
+}
+.vc .l{font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); margin-top:var(--s2)}
+.vc.good .n{color:var(--pos)} .vc.bad .n{color:var(--neg)} .vc.warn .n{color:var(--warn)}
+
+/* ---- layout ---- */
+.cols{display:grid; grid-template-columns:180px 1fr; gap:var(--s9); align-items:start}
+nav.toc{position:sticky; top:var(--s6); display:flex; flex-direction:column; gap:var(--s1)}
+nav.toc a{
+  font-size:13px; color:var(--ink-3); text-decoration:none; padding:var(--s2) var(--s3);
+  border-left:2px solid var(--rule); border-radius:0 var(--r-well) var(--r-well) 0;
+}
+nav.toc a:hover{color:var(--ink); background:var(--paper-soft); border-left-color:var(--accent-2)}
+nav.toc a:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+section{margin-bottom:var(--s10); scroll-margin-top:var(--s6)}
+h2{
+  font-family:var(--serif); font-size:27px; line-height:1.2; letter-spacing:-.011em;
+  font-weight:600; margin:0 0 var(--s2); text-wrap:balance;
+}
+.sub{color:var(--ink-3); font-size:14px; margin:0 0 var(--s6); max-width:64ch}
+h3{font-size:15px; font-weight:650; margin:var(--s6) 0 var(--s2); letter-spacing:-.005em}
+p{max-width:65ch}
+
+/* ---- rule cards: the file's text, then what it means ---- */
+.rules{display:flex; flex-direction:column; gap:var(--s4)}
+.rule{
+  background:var(--card); border:1px solid var(--card-border); border-radius:var(--r-card);
+  box-shadow:var(--shadow); overflow:hidden;
+}
+.rule > .head{
+  display:flex; gap:var(--s3); align-items:baseline; flex-wrap:wrap;
+  padding:var(--s4) var(--s5); border-bottom:1px solid var(--rule-soft);
+  background:var(--paper-soft);
+}
+.rule .tag{
+  font-size:11px; letter-spacing:.10em; text-transform:uppercase; font-weight:650;
+  color:var(--accent-2); white-space:nowrap;
+}
+.rule .said{font-family:var(--mono); font-size:13px; color:var(--ink); line-height:1.5}
+.rule .means{padding:var(--s4) var(--s5); font-size:14.5px; color:var(--ink-2); line-height:1.6}
+.rule .means b{color:var(--ink); font-weight:650}
+
+/* ---- plain tables ---- */
+.tbl-wrap{overflow-x:auto; border:1px solid var(--card-border); border-radius:var(--r-card); box-shadow:var(--shadow)}
+table{border-collapse:collapse; width:100%; min-width:520px; background:var(--paper-soft); font-size:14px}
+th,td{text-align:left; padding:var(--s3) var(--s4); border-bottom:1px solid var(--rule-soft); vertical-align:top}
+thead th{
+  font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3);
+  font-weight:650; background:var(--paper-deep); white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+td.num{font-family:var(--num); font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+code{font-family:var(--mono); font-size:12.5px; background:var(--paper-deep); padding:1px 5px; border-radius:var(--r-well); color:var(--ink)}
+
+/* ---- status pills ---- */
+.pill{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:650;
+  padding:2px 10px; border-radius:var(--r-pill); white-space:nowrap;
+}
+.pill::before{content:""; width:6px; height:6px; border-radius:50%; background:currentColor}
+.pill.ok{background:var(--pos-soft); color:var(--pos); border:1px solid var(--pos-rule)}
+.pill.no{background:var(--neg-soft); color:var(--neg); border:1px solid var(--neg-rule)}
+.pill.wait{background:var(--warn-soft); color:var(--warn); border:1px solid var(--warn-rule)}
+
+/* ---- callout ---- */
+.note{
+  border-left:3px solid var(--accent-2); background:var(--warn-soft);
+  padding:var(--s4) var(--s5); border-radius:0 var(--r-card) var(--r-card) 0;
+  font-size:14.5px; color:var(--ink-2); line-height:1.6;
+}
+.note.bad{border-left-color:var(--neg); background:var(--neg-soft)}
+.note strong{color:var(--ink)}
+.note p{margin:0 0 var(--s3)} .note p:last-child{margin:0}
+
+/* ---- swatches ---- */
+.swatches{display:grid; grid-template-columns:repeat(auto-fill,minmax(112px,1fr)); gap:var(--s3)}
+.sw{border:1px solid var(--card-border); border-radius:var(--r-well); overflow:hidden; background:var(--paper-soft)}
+.sw .chip{height:48px}
+.sw .meta{padding:var(--s2) var(--s3); font-size:11px; line-height:1.4}
+.sw .meta .nm{color:var(--ink); font-weight:600}
+.sw .meta .hx{font-family:var(--num); font-variant-numeric:tabular-nums; color:var(--ink-4); letter-spacing:.02em}
+
+ul.tight{margin:var(--s2) 0 0; padding-left:var(--s5); color:var(--ink-2); font-size:14.5px; line-height:1.65}
+ul.tight li{margin-bottom:var(--s2)} ul.tight li::marker{color:var(--accent-2)}
+ul.tight b{color:var(--ink)}
+
+footer{
+  margin-top:var(--s10); padding-top:var(--s5); border-top:1px solid var(--rule);
+  font-size:13px; color:var(--ink-4); display:flex; flex-wrap:wrap; gap:var(--s2) var(--s5);
+}
+
+@media (max-width:820px){
+  .cols{grid-template-columns:1fr; gap:var(--s6)}
+  nav.toc{position:static; flex-direction:row; flex-wrap:wrap; gap:var(--s1) var(--s2);
+    padding-bottom:var(--s4); border-bottom:1px solid var(--rule)}
+  nav.toc a{border-left:none; border-bottom:2px solid var(--rule); border-radius:0}
+  .wrap{padding:var(--s6) var(--s4) var(--s9)}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div class="eyebrow">Athena OS · global engineering standard</div>
+    <h1>The rules, and the proof they run</h1>
+    <p class="dek">Your <code>~/.claude/CLAUDE.md</code> is 51 lines that govern every project. Below is what each
+    part says, what it actually means, and — the part that was missing until today — a check that
+    <em>exercises</em> each rule instead of trusting it.</p>
+    <div class="mast-meta">
+      <span>Verified <b>29 Jul 2026</b></span>
+      <span><b>37</b> checks passing</span>
+      <span><b>1</b> failing</span>
+      <span>Run it yourself: <code>~/.claude/bin/doctor</code></span>
+    </div>
+  </header>
+
+  <div class="verdict">
+    <div class="vc good"><div class="n">15</div><div class="l">Hooks live</div></div>
+    <div class="vc good"><div class="n">8</div><div class="l">Fire-tested</div></div>
+    <div class="vc good"><div class="n">7</div><div class="l">Repos tracked</div></div>
+    <div class="vc warn"><div class="n">1</div><div class="l">Still red</div></div>
+    <div class="vc good"><div class="n">1.4<span style="font-size:18px">GB</span></div><div class="l">Was 2.5 GB</div></div>
+  </div>
+
+  <div class="cols">
+    <nav class="toc">
+      <a href="#posture">Posture</a>
+      <a href="#four">The four rules</a>
+      <a href="#routing">Skill routing</a>
+      <a href="#memory">Memory</a>
+      <a href="#bars">Quality bars</a>
+      <a href="#design">Design language</a>
+      <a href="#proof">Proof it runs</a>
+      <a href="#today">Changed today</a>
+      <a href="#open">Still open</a>
+    </nav>
+
+    <main>
+
+      <section id="posture">
+        <h2>Posture</h2>
+        <p class="sub">Who I am talking to, and how.</p>
+        <div class="rules">
+          <div class="rule">
+            <div class="head"><span class="tag">As written</span>
+              <span class="said">User is a NON-TECHNICAL founder; own the technical judgment, he won't catch your mistakes.</span></div>
+            <div class="means">I do not hand you a menu of options and ask you to pick. I make the call, state the
+              reasoning, and carry the blame if it is wrong. <b>The corollary matters more:</b> if I say something
+              works, that claim has to survive a check you could run yourself — because you cannot audit it by reading the code.</div>
+          </div>
+          <div class="rule">
+            <div class="head"><span class="tag">As written</span>
+              <span class="said">Bad news first, no praise padding, disagree with evidence.</span></div>
+            <div class="means">Problems lead. No "great question". When I disagree I bring the command output that
+              proves it, not an opinion.</div>
+          </div>
+          <div class="rule">
+            <div class="head"><span class="tag">As written</span>
+              <span class="said">Explain like Feynman — plain analogy before jargon, never instead of it.</span></div>
+            <div class="means">Analogy first so you can hold the shape of the thing, then the real term so you can
+              search for it and talk to anyone else about it. Never the analogy alone — that leaves you fluent in a
+              private language only I speak.</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="four">
+        <h2>The four rules</h2>
+        <p class="sub">The whole standard compresses to these. Everything else is enforcement.</p>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Rule</th><th>What it stops</th></tr></thead>
+            <tbody>
+              <tr><td><b>Think first</b> — assumptions stated, plan before non-trivial work</td>
+                  <td>Confident work built on a wrong guess nobody wrote down.</td></tr>
+              <tr><td><b>Simplest thing that works</b></td>
+                  <td>Frameworks and abstractions built for problems you do not have.</td></tr>
+              <tr><td><b>Surgical</b> — every changed line traces to the request</td>
+                  <td>The tidy-up that quietly breaks something three files away.</td></tr>
+              <tr><td><b>Goal-driven</b> — verifiable goal, loop until met. <b>Prove, never claim.</b></td>
+                  <td>"Done" meaning "I stopped working", not "it demonstrably works".</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note" style="margin-top:var(--s5)">
+          <p><strong>Rule four is the one that failed today.</strong> A previous session reported the aislop
+          code-quality gate as "installed and verified catching real defects". It had never been installed —
+          the program did not exist anywhere on your machine, so the rule describing it had never once run.</p>
+          <p>Nothing in the setup could have told you that, because nothing tested it. That is exactly the gap
+          <code>bin/doctor</code> now closes.</p>
+        </div>
+      </section>
+
+      <section id="routing">
+        <h2>Skill routing</h2>
+        <p class="sub">There are 26 skills installed. You never name one — the stage of work picks it.</p>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Stage</th><th>Fires</th><th>In plain terms</th></tr></thead>
+            <tbody>
+              <tr><td>Intake</td><td><code>brainstorming</code></td><td>Work out what you actually want</td></tr>
+              <tr><td>Spec</td><td><code>spec</code></td><td>Write it down precisely enough to build</td></tr>
+              <tr><td>Plan</td><td><code>writing-plans</code> → two reviews</td><td>An engineer and a CEO each attack the plan</td></tr>
+              <tr><td>Build</td><td><code>test-driven-development</code></td><td>Write the failing test first</td></tr>
+              <tr><td>Verify</td><td><code>verification-before-completion</code></td><td>Prove it before saying done</td></tr>
+              <tr><td>Ship</td><td><code>ship</code> → <code>canary</code></td><td>Release, then watch it</td></tr>
+              <tr><td>Bugs</td><td><code>systematic-debugging</code></td><td>Find the cause, not the symptom</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:var(--s4);font-size:14.5px;color:var(--ink-2)">One skill per job. When two seem to
+        apply, the list decides — that ambiguity was a real source of inconsistent behaviour before it was written down.</p>
+      </section>
+
+      <section id="memory">
+        <h2>Memory</h2>
+        <p class="sub">One store, and a trap that already cost you everything once.</p>
+        <div class="rules">
+          <div class="rule">
+            <div class="head"><span class="tag">The trap</span>
+              <span class="said">It is keyed by folder path — moving a repo orphans everything it learned.</span></div>
+            <div class="means">Memory is filed under the folder's full path, like a filing cabinet indexed by
+              street address. Move the house, and every letter goes to the old address — <b>nothing is deleted, it
+              is simply never found again</b>. This is why memory looked "lost" after your repos moved into
+              <code>~/All AI</code>. <code>bin/rekey-memory</code> detects it; <code>bin/doctor</code> now checks the index
+              resolves on every run.</div>
+          </div>
+          <div class="rule">
+            <div class="head"><span class="tag">The discipline</span>
+              <span class="said">Prose holds only why — decisions, rejected alternatives, what failed.</span></div>
+            <div class="means">Never write down what the code already says; it goes stale and then lies to you.
+              Write down the reasoning the code cannot contain: what you chose <em>against</em>, and why.</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="bars">
+        <h2>Quality bars</h2>
+        <p class="sub">Freeze today's debt, block tomorrow's. Never a fix-everything sweep.</p>
+        <ul class="tight">
+          <li><b>Zero new type errors</b>, ≥80% test coverage on changed code</li>
+          <li><b>Row-level security on every table</b>, auth checked server-side on every route</li>
+          <li><b>No personal data in logs</b> — enforced by a hook, tested below</li>
+          <li><b>Money is never a decimal float</b> — enforced by a hook, tested below</li>
+          <li><b>Archive before delete</b>, migrations only, <code>main</code> equals production</li>
+          <li><b>Anything an AI generates ships with an eval set</b> — tests check code, evals check output</li>
+        </ul>
+        <div class="note" style="margin-top:var(--s5)">
+          <p><strong>Three of your repos break the last one.</strong> atlas-os, beyond and careerplus all call a
+          language model in production and none has an eval set. Their tests pass while the model's actual output
+          goes unchecked. This is the largest untested surface you own.</p>
+        </div>
+      </section>
+
+      <section id="design">
+        <h2>Design language</h2>
+        <p class="sub">Extracted today from your Atlas dashboard. This page is built from it.</p>
+        <p style="font-size:14.5px;color:var(--ink-2)">The file you sent was a 2.5&nbsp;MB export wrapper — a
+        compressed blob of conversation with the real 46&nbsp;KB dashboard buried inside it. Reading the wrapper
+        is what kept exhausting my working memory. Unpacked, it holds a complete and genuinely good system.</p>
+        <div class="swatches" style="margin-top:var(--s5)">
+          <div class="sw"><div class="chip" style="background:#F4F0E5"></div><div class="meta"><div class="nm">Paper</div><div class="hx">#F4F0E5</div></div></div>
+          <div class="sw"><div class="chip" style="background:#25394A"></div><div class="meta"><div class="nm">Accent slate</div><div class="hx">#25394A</div></div></div>
+          <div class="sw"><div class="chip" style="background:#B8860B"></div><div class="meta"><div class="nm">Ochre</div><div class="hx">#B8860B</div></div></div>
+          <div class="sw"><div class="chip" style="background:#2C6B41"></div><div class="meta"><div class="nm">Gain</div><div class="hx">#2C6B41</div></div></div>
+          <div class="sw"><div class="chip" style="background:#AB4425"></div><div class="meta"><div class="nm">Loss</div><div class="hx">#AB4425</div></div></div>
+          <div class="sw"><div class="chip" style="background:#17140F"></div><div class="meta"><div class="nm">Ink</div><div class="hx">#17140F</div></div></div>
+        </div>
+        <h3>Two contradictions I fixed rather than papered over</h3>
+        <ul class="tight">
+          <li>Your rules said <b>teal #1D9E75 on white</b>. Your actual system is warm ivory under frosted glass,
+            with deep slate and ochre. The rules were a guess written before the real file arrived; they are now corrected.</li>
+          <li>The rules quoted Tufte — <b>"no gradients, no shadows"</b> — while the real system is built on
+            glass, which is nothing but gradient and blur. Both are right about different things: that rule governs
+            the <em>data</em> inside a chart, not the <em>surface</em> around it. Now stated explicitly so it stops
+            reading as a contradiction.</li>
+        </ul>
+      </section>
+
+      <section id="proof">
+        <h2>Proof it runs</h2>
+        <p class="sub">Your own standard says a check must exercise the deliverable — never grep a file and print success.</p>
+        <p style="font-size:14.5px;color:var(--ink-2)">So <code>doctor</code> does not check that a hook <em>exists</em>.
+        It feeds each hook a genuinely bad edit and demands a block, then a genuinely good edit and demands a pass.
+        A hook that blocks everything is as broken as a dead one, and merely checking it exists would catch neither.</p>
+        <div class="tbl-wrap" style="margin-top:var(--s5)">
+          <table>
+            <thead><tr><th>What is tested</th><th>Fed to it</th><th>Result</th></tr></thead>
+            <tbody>
+              <tr><td>Money as float</td><td><code>price: float = 1.0</code></td><td><span class="pill ok">blocked</span></td></tr>
+              <tr><td>Money as Decimal</td><td><code>price: Decimal = …</code></td><td><span class="pill ok">allowed</span></td></tr>
+              <tr><td>Swallowed error</td><td><code>except:</code></td><td><span class="pill ok">blocked</span></td></tr>
+              <tr><td>Handled error</td><td><code>except ValueError:</code></td><td><span class="pill ok">allowed</span></td></tr>
+              <tr><td>Hardcoded secret</td><td><code>api_key = "sk-live-…"</code></td><td><span class="pill ok">blocked</span></td></tr>
+              <tr><td>Secret from environment</td><td><code>os.getenv("API_KEY")</code></td><td><span class="pill ok">allowed</span></td></tr>
+              <tr><td>PAN number in a log line</td><td><code>logger.info(pan=…)</code></td><td><span class="pill ok">blocked</span></td></tr>
+              <tr><td>Redacted log line</td><td><code>logger.info("pan=redacted")</code></td><td><span class="pill ok">allowed</span></td></tr>
+              <tr><td>Weekly report actually appears</td><td>file age on disk</td><td><span class="pill ok">0 days old</span></td></tr>
+              <tr><td>Every memory file is indexed</td><td>link resolution both ways</td><td><span class="pill ok">8 of 8</span></td></tr>
+              <tr><td>Code-quality gate</td><td><code>aislop</code> on PATH</td><td><span class="pill ok">now live</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:var(--s5);font-size:14.5px;color:var(--ink-2)">Its first run found three failures.
+        One of them — the code-quality gate — had been reported to you as working. That is the honest answer to
+        "how do we know it all works": <b>we know because something now fails loudly when it does not.</b></p>
+      </section>
+
+      <section id="today">
+        <h2>Changed today</h2>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Before</th><th>After</th></tr></thead>
+            <tbody>
+              <tr><td>Design language</td><td>Interim guess, wrong palette</td><td>Extracted from your real file</td></tr>
+              <tr><td>Code-quality gate</td><td>Documented, never installed</td><td><code>aislop@0.14.0</code> live</td></tr>
+              <tr><td>Verification</td><td>None</td><td><code>bin/doctor</code>, 38 checks</td></tr>
+              <tr><td><code>.claude</code> folder</td><td class="num">2.5 GB</td><td class="num">1.4 GB</td></tr>
+              <tr><td>Git object store</td><td class="num">284 MB</td><td class="num">862 KB</td></tr>
+              <tr><td>athena-os on GitHub</td><td><span class="pill no">public, with a password in history</span></td><td><span class="pill ok">private, that branch deleted</span></td></tr>
+              <tr><td>project-lemon</td><td>No STATE or HANDOFF</td><td>Both, written from a real test run</td></tr>
+              <tr><td>One folder for everything</td><td>Split</td><td><code>~/All AI/_os</code> reaches it all</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note bad" style="margin-top:var(--s6)">
+          <p><strong>Do this yourself, today: rotate the fie2 database password.</strong></p>
+          <p>It was committed to a repo that was public until this afternoon. A later commit titled
+          "scrub secret" only deleted the <em>reminder line</em> telling you to rotate it — the password itself
+          stayed in the history, and the rotation appears never to have happened.</p>
+          <p>The repo is private now and that branch is gone, but a public repository must be assumed to have been
+          read. Changing the password at the database is the only thing that actually fixes this. I cannot do it for you.</p>
+        </div>
+      </section>
+
+      <section id="open">
+        <h2>Still open</h2>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Why it matters</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Rotate the fie2 password</td><td>Was public; only you can change it</td><td><span class="pill no">yours</span></td></tr>
+              <tr><td>Eval sets for atlas-os, beyond, careerplus</td><td>All three call a model with nothing checking its output</td><td><span class="pill no">not started</span></td></tr>
+              <tr><td>atlas-os quality score</td><td>Lowest of your repos, and it is live with real clients</td><td><span class="pill no">5 / 100</span></td></tr>
+              <tr><td>project-lemon reference data</td><td>Lost in the move; 68 tests skip, tie-outs unreproducible</td><td><span class="pill wait">needs restore</span></td></tr>
+              <tr><td>maal client reporting</td><td>Moved in today. 1,407-line CLAUDE.md, no STATE or HANDOFF</td><td><span class="pill wait">next</span></td></tr>
+              <tr><td>Skill optimisation</td><td>Deliberately deferred — no evidence yet on which skills underperform</td><td><span class="pill wait">wait for data</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <span>Built from <code>~/.claude/design/reference/tokens.css</code></span>
+    <span>Source: <code>~/.claude/CLAUDE.md</code></span>
+    <span>Re-verify anytime: <code>~/.claude/bin/doctor</code></span>
+  </footer>
+</div>

@@ -100,7 +100,8 @@
       "Bash(timeout 100 uv run which pytest)",
       "Bash(timeout 300 uv run python -m pytest -q)",
       "Bash(timeout 200 uv run python -m pytest -q)",
-      "Bash(awk '{print \"  \",$6,$7,$8,$9,$10,$11}')"
+      "Bash(awk '{print \"  \",$6,$7,$8,$9,$10,$11}')",
+      "Bash(python3 - \"/private/tmp/claude-501/-Users-nimishshah/f34205e6-1748-433d-a426-df8c2fdfa990/scratchpad/athena-os.html\")"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",
