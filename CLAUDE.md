@@ -37,7 +37,8 @@ Verdict: PASS → next · FIX → redispatch naming the failure · ESCALATE → 
 
 ## Memory
 Native auto-memory is the only store; never build a second — four trusted-but-unverified stores is what
-broke the last OS. `tokensave`/`headroom` compress only; **neither may hold memory.**
+broke the last OS. `serena`/`tokensave`/`headroom` index and compress; **none may hold memory** —
+`serena` is for symbol lookup in files >600 lines (a hook routes you there; it earns its slot weekly).
 **Keyed by folder path — moving a repo orphans everything it learned**; `bin/rekey-memory` after any move.
 Never write prose describing what code can regenerate; prose holds only *why* (decisions, rejected
 alternatives, what failed).

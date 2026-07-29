@@ -19,7 +19,29 @@ LIMIT=$(echo "$INPUT" | jq -r '.tool_input.limit // empty')
 
 MAX_BYTES=${CLAUDE_READ_GUARD_BYTES:-262144}   # 256KB ≈ 65k tokens
 SIZE=$(stat -f %z "$FILE" 2>/dev/null || stat -c %s "$FILE" 2>/dev/null || echo 0)
-[ "$SIZE" -le "$MAX_BYTES" ] && exit 0
+
+# --- tier 1: large SOURCE file in a serena project → route to symbol lookup ---
+# Measured on atlas-os: whole-file 20k tok, native grep+slice 1198, serena 725.
+# Only fires where serena is actually activated, so it can never be dead advice.
+if [ "$SIZE" -le "$MAX_BYTES" ]; then
+  case "$FILE" in
+    *.py|*.ts|*.tsx|*.js|*.jsx|*.go|*.rs|*.java|*.rb|*.php|*.cs) ;;
+    *) exit 0 ;;
+  esac
+  SRC_LINES=$(wc -l < "$FILE" 2>/dev/null | tr -d ' '); SRC_LINES=${SRC_LINES:-0}
+  [ "$SRC_LINES" -le "${CLAUDE_SYMBOL_ROUTE_LINES:-600}" ] && exit 0
+  ROOT=$(cd "$(dirname "$FILE")" 2>/dev/null && pwd) || exit 0
+  while [ "$ROOT" != "/" ] && [ ! -d "$ROOT/.serena" ]; do ROOT=$(dirname "$ROOT"); done
+  [ "$ROOT" = "/" ] && exit 0        # serena not activated here — say nothing
+  REL=${FILE#"$ROOT"/}
+  echo "BLOCKED: whole-file Read of $SRC_LINES lines (~$((SIZE / 3800))k tokens)." >&2
+  echo "Serena is active on this project — use the symbol tools instead:" >&2
+  echo "  get_symbols_overview(relative_path=\"$REL\")   # the map, ~175 tok" >&2
+  echo "  find_symbol(name_path_pattern=\"<name>\", relative_path=\"$REL\", include_body=true)" >&2
+  echo "Measured on atlas-os: 725 tok vs 1198 native vs 20k whole-file." >&2
+  echo "Genuinely need the whole file? Read(..., limit=$SRC_LINES) says so explicitly." >&2
+  exit 1
+fi
 
 LINES=$(wc -l < "$FILE" 2>/dev/null | tr -d ' ')
 LINES=${LINES:-0}

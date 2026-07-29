@@ -116,7 +116,14 @@
       "Bash(echo \" exit=$? \\(expect 0 = allowed\\)\")",
       "Bash(~/.claude/hooks/pre-compact-preserve.sh)",
       "Bash(awk '{print \"  pid\",$2,\"cpu\",$3\"%\",\"mem\",$4\"%\",substr\\($0,index\\($0,$11\\),90\\)}')",
-      "Bash(awk '{printf \"%.1f\\\\n\",$5/1024}')"
+      "Bash(awk '{printf \"%.1f\\\\n\",$5/1024}')",
+      "Bash(grep -v ' total$')",
+      "Bash(awk '{printf \"  %5d lines  %6.0f KB  ~%3.0fk tok  %s\\\\n\", $1, $2/1024, $2/3800, $3}')",
+      "mcp__plugin_serena_serena__activate_project",
+      "Bash(grep -v '^\\\\s*$')",
+      "mcp__plugin_serena_serena__get_symbols_overview",
+      "mcp__plugin_serena_serena__find_symbol",
+      "Bash(cd ~/\"All AI\"/atlas-os)"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",

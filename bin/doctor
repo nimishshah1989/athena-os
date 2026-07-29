@@ -98,14 +98,39 @@ case "$OUT" in
   *) bad "PreCompact hook produced no instructions — compaction runs unguided" ;;
 esac
 
-head_ "4. aislop gate"
+head_ "4. Serena — earns its place or goes"
+SP=$(ls -d ~/"All AI"/*/.serena 2>/dev/null | wc -l | tr -d ' ')
+[ "$SP" -gt 0 ] && ok "activated on $SP project(s)" || bad "activated nowhere — 29 tools for nothing"
+# routing is mechanical, not an instruction — assert the guard actually fires
+BIGSRC=$(ls -S ~/"All AI"/atlas-os/atlas/discovery/*.py 2>/dev/null | head -1)
+if [ -n "$BIGSRC" ]; then
+  jq -nc --arg f "$BIGSRC" '{tool_name:"Read",tool_input:{file_path:$f}}' \
+    | "$C/hooks/pre-read-size-guard.sh" >/dev/null 2>&1
+  [ $? -ne 0 ] && ok "large source file routes to symbol lookup" \
+                || bad "symbol routing dead — serena will drift back to zero use"
+fi
+# the kill criterion: 232 sessions with zero calls is what made it worthless
+CALLS=$(cat ~/.serena/logs/*/mcp_*.txt 2>/dev/null | grep -c '_log_tool_application' || echo 0)
+RECENT=$(find ~/.serena/logs -name 'mcp_*.txt' -mtime -7 2>/dev/null \
+         | xargs grep -h '_log_tool_application' 2>/dev/null | wc -l | tr -d ' ')
+if [ "${RECENT:-0}" -gt 0 ]; then
+  ok "$RECENT tool call(s) in the last 7 days ($CALLS lifetime)"
+else
+  bad "0 calls in 7 days — serena is costing ~309 tok/session for nothing, remove it"
+fi
+# serena has its own memory store; the memory law says it stays empty
+SMEM=$(find ~/"All AI"/*/.serena/memories -type f 2>/dev/null | wc -l | tr -d ' ')
+[ "${SMEM:-0}" -eq 0 ] && ok "serena holds no memories (native store stays the only one)" \
+                       || bad "$SMEM serena memory file(s) — second store, violates the memory law"
+
+head_ "5. aislop gate"
 if command -v aislop >/dev/null 2>&1; then
   ok "aislop on PATH ($(aislop --version 2>/dev/null | head -1))"
 else
   bad "aislop NOT on PATH — the PostToolUse gate is dead"
 fi
 
-head_ "5. Weekly routine"
+head_ "6. Weekly routine"
 if launchctl list 2>/dev/null | grep -q com.athena.weekly-routine; then
   ok "launchd job com.athena.weekly-routine registered"
 else
@@ -120,7 +145,7 @@ else
   bad "no report in ~/All AI/_reports — routine has never produced output"
 fi
 
-head_ "6. Memory index integrity"
+head_ "7. Memory index integrity"
 MEM=$C/projects/-Users-nimishshah/memory
 if [ -f "$MEM/MEMORY.md" ]; then
   MISSING=0
@@ -136,7 +161,7 @@ else
   bad "MEMORY.md missing at $MEM"
 fi
 
-head_ "7. Design language wired"
+head_ "8. Design language wired"
 [ -f "$C/design/reference/tokens.css" ] && ok "tokens.css present" || bad "tokens.css missing"
 grep -q 'F4F0E5' "$C/design/DESIGN-LANGUAGE.md" 2>/dev/null \
   && ok "DESIGN-LANGUAGE.md carries the real palette" \
@@ -147,7 +172,7 @@ else
   ok "no stale teal references"
 fi
 
-head_ "8. Per-project context"
+head_ "9. Per-project context"
 for d in ~/"All AI"/*/; do
   n=$(basename "$d")
   case "$n" in _*) continue;; esac      # _reports, _archive, _os symlink
