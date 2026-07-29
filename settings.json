@@ -101,7 +101,13 @@
       "Bash(timeout 300 uv run python -m pytest -q)",
       "Bash(timeout 200 uv run python -m pytest -q)",
       "Bash(awk '{print \"  \",$6,$7,$8,$9,$10,$11}')",
-      "Bash(python3 - \"/private/tmp/claude-501/-Users-nimishshah/f34205e6-1748-433d-a426-df8c2fdfa990/scratchpad/athena-os.html\")"
+      "Bash(python3 - \"/private/tmp/claude-501/-Users-nimishshah/f34205e6-1748-433d-a426-df8c2fdfa990/scratchpad/athena-os.html\")",
+      "Bash(~/.local/bin/headroom --version)",
+      "Bash(~/.local/bin/headroom --help)",
+      "Bash(~/.local/bin/headroom memory *)",
+      "Bash(awk '{print \"now:\",$1,\"lines \\(limit 50\\)\"}')",
+      "Bash(grep -vcE '^\\\\s*$|^#' ~/.claude/CLAUDE.md)",
+      "Bash(grep -cE '^\\\\s*$' ~/.claude/CLAUDE.md)"
     ],
     "deny": [
       "mcp__plugin_supabase_supabase__apply_migration",

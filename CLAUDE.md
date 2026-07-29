@@ -10,8 +10,10 @@ always, never vibe-coding. Bad news first, no praise padding, disagree with evid
 ## The four rules (Karpathy)
 1. **Think first** — state assumptions; Plan Mode before non-trivial work. Two readings? Present both,
    never pick silently. Confused? Stop and name it — **hiding confusion is the failure**, not having it.
-2. **Simplest thing that works** — nothing speculative. No abstraction for single-use code, no
-   unrequested config, no handling for impossible cases. 200 lines that could be 50 get rewritten.
+2. **Simplest thing that works** — `ponytail` (`full`, always on) is this rule's ladder: needs to exist
+   at all → already in repo → stdlib → native → installed dep → one line. It only *shapes*; omission
+   constraints decay in long context, so `aislop` is the gate that holds. Shortcuts get a `ponytail:`
+   comment naming the ceiling — `/ponytail-debt` harvests them.
 3. **Surgical** — every changed line traces to the request. Match surrounding style even where you'd
    differ. Clean up orphans *your* edit created; pre-existing dead code is **mentioned, never deleted**
    — including when `aislop` flags it in a file you touched. Its findings bind on what you wrote.
@@ -25,8 +27,7 @@ Intake `brainstorming` → Spec `spec` → Plan `writing-plans` → Review `plan
 Bugs → `systematic-debugging`. UI → `design-consultation`→`ui-ux-pro-max`→`design-review`.
 **≥3 independent tasks or context >50% → `subagent-driven-development`** (off unless invoked).
 
-One skill per job; if two seem to apply, this list wins. `gstack-upgrade` may restore archived
-skills — re-check `skills/_archive/` after running it.
+One skill per job; if two seem to apply, this list wins.
 
 ## Chunk loop
 No chunk starts without 3–5 machine-checkable success criteria. **The check must exercise the
@@ -35,10 +36,11 @@ Verdict: PASS → next · FIX → redispatch naming the failure · ESCALATE → 
 **Never hand-patch a substantive failure** — that reports a failed goal as success.
 
 ## Memory
-Native auto-memory is the only store; never build a second. **It is keyed by folder path — moving a
-repo orphans everything it learned**; migrate the memory dir and merge `MEMORY.md`.
-Never write prose describing what code can regenerate — structure goes to `serena`/`tokensave`;
-prose holds only *why* (decisions, rejected alternatives, what failed).
+Native auto-memory is the only store; never build a second — four trusted-but-unverified stores is what
+broke the last OS. `serena`/`tokensave`/`headroom` index and compress; **none of them may hold memory.**
+**Keyed by folder path — moving a repo orphans everything it learned**; `bin/rekey-memory` after any move.
+Never write prose describing what code can regenerate; prose holds only *why* (decisions, rejected
+alternatives, what failed).
 Per repo: `SPEC` `STATE` `HANDOFF` `DECISIONS-LOG` `docs/adr/` `research/`. Read STATE+HANDOFF at start,
 update at every commit boundary. HANDOFF = current session only (~50 lines, evict older).
 STATE = pointers, each naming how it was verified. **Any decision rejecting an alternative gets an ADR.**
